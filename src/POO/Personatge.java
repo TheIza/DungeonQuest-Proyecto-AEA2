@@ -94,9 +94,13 @@ public class Personatge implements Combatent {
 
 
 
-	@Override
+	
 	public void atacar(Monstre m) {
-		
+	int dano = atac;
+		m.setVida(m.getVida() - dano);
+		System.out.println("Atacado monstruo, Daño: " + dano);
+		System.out.println("Vida restante de " + m.getNom() + ": " + m.getVida());
+
 	}
 	public int calcularAtac() {
 		// TODO Auto-generated method stub

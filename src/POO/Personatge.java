@@ -1,6 +1,5 @@
 package POO;
 
-import sun.jvm.hotspot.oops.Array;
 
 public class Personatge implements Combatent {
 	private String nom;

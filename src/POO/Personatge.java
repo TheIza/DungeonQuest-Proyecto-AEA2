@@ -1,7 +1,5 @@
 package POO;
 
-
-
 public class Personatge implements Combatent {
 	private String nom;
 	private int vida;

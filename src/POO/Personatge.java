@@ -11,8 +11,8 @@ public class Personatge implements Combatent {
 	private int forsa;
 	private int[] posicio = new int[2];
 	private Tresor[] equipament = new Tresor[forsa];
-	
-	
+
+
 
 	public Personatge(String nom, int vida, int atac, int agilitat, int forsa) {
 
@@ -43,7 +43,7 @@ public class Personatge implements Combatent {
 			this.equipament = new Tresor[4];
 		}
 
-		}
+	}
 
 	public int getVida() {
 		return vida;
@@ -96,8 +96,8 @@ public class Personatge implements Combatent {
 			this.forsa = 4;
 		}
 	}
-	
-	
+
+
 	public int[] getPosicio() {
 		return posicio;
 	}
@@ -107,7 +107,7 @@ public class Personatge implements Combatent {
 		this.posicio[1] = posCol;
 	}
 
-	
+
 	// ToString
 
 	public String toString() {
@@ -115,7 +115,7 @@ public class Personatge implements Combatent {
 				"Atac: " + atac + "\n" + "Experencia: " + experencia + "\n" +
 				"Agilitat: " + agilitat + "\n" + "Forsa: " + forsa  + "\n" +
 				"Equipament: " + Arrays.toString(equipament) + "\n" +
-						"PosicioFila: " + posicio[0] + "\n" + "PosicioCol: " + posicio[1];
+				"PosicioFila: " + posicio[0] + "\n" + "PosicioCol: " + posicio[1];
 	}
 
 	/**
@@ -131,22 +131,31 @@ public class Personatge implements Combatent {
 		System.out.println("Vida restant de " + m.getNom() + ": " + m.getVida());
 	}
 
+	// TODO revisa que tipo de sala es y lo que hay en la sala
 	public void explorar() {
-		System.out.println();
+		System.out.println(); 
 
 	}
-	public void moure(char direccio){
-
-		
-		if(direccio == 'N') {
+	public boolean moure(char direccio){
+						
+		if(direccio == 'N' && (posicio[0]-1) >= 0) {
+			posicio[0]--;
+			return true;
+		} else if(direccio == 'E' && (posicio[1]+1) <= 5) {
+			posicio[1]++;
+			return true;
+		} else if(direccio == 'S' && (posicio[0]+1) <= 5) {
+			posicio[0]++;
+			return true;
 			
-		} else if(direccio == 'E') {
-			
-		} else if(direccio == 'S') {
-			
-		} else if(direccio == 'O') {
-			
+		} else if(direccio == 'O' && (posicio[1]-1) >= 0) {
+			posicio[1]--;
+			return true;
+		} else {
+			System.out.println("Posicion invalida");
+			return false;
 		}
+		
 	}
 
 	public int calcularAtac() {
@@ -166,7 +175,7 @@ public class Personatge implements Combatent {
 		return false;
 	}
 
-	
+
 
 
 

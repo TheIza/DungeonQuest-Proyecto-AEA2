@@ -1,7 +1,7 @@
 package POO;
 
 import java.util.Arrays;
-
+//TODO cambiar los valores del constructor para que sean aleatorios
 public class Personatge implements Combatent {
 	private String nom;
 	private int vida;
@@ -42,6 +42,8 @@ public class Personatge implements Combatent {
 			this.forsa = 4;
 			this.equipament = new Tresor[4];
 		}
+		this.posicio[0] = 0;
+		this.posicio[1] = 0;
 
 	}
 
@@ -111,12 +113,14 @@ public class Personatge implements Combatent {
 	// ToString
 
 	public String toString() {
-		return "Personatge: " + nom + "\n" + "Vida: " + vida + "\n" +
-				"Atac: " + atac + "\n" + "Experencia: " + experencia + "\n" +
-				"Agilitat: " + agilitat + "\n" + "Forsa: " + forsa  + "\n" +
+		return "Personatge: " + nom + "\n" + 
+				"Vida: " + vida + "\n" +
+				"Agilitat: " + agilitat + "\n" + 
+				"Forsa: " + forsa  + "\n" +
 				"Equipament: " + Arrays.toString(equipament) + "\n" +
-				"PosicioFila: " + posicio[0] + "\n" + "PosicioCol: " + posicio[1];
-	}
+				"PosicioFila: " + posicio[0] + "\n" + 
+				"PosicioCol: " + posicio[1];
+	} //TODO podria marcar en posicion en que tipo de sala esta
 
 	/**
 	 * 
@@ -137,7 +141,7 @@ public class Personatge implements Combatent {
 
 	}
 	public boolean moure(char direccio){
-						
+
 		if(direccio == 'N' && (posicio[0]-1) >= 0) {
 			posicio[0]--;
 			return true;
@@ -147,7 +151,7 @@ public class Personatge implements Combatent {
 		} else if(direccio == 'S' && (posicio[0]+1) <= 5) {
 			posicio[0]++;
 			return true;
-			
+
 		} else if(direccio == 'O' && (posicio[1]-1) >= 0) {
 			posicio[1]--;
 			return true;
@@ -155,24 +159,28 @@ public class Personatge implements Combatent {
 			System.out.println("Posicion invalida");
 			return false;
 		}
-		
+
 	}
 
+	@Override
+	//devuelve un valor random entre 1 y la fuerza del personaje
 	public int calcularAtac() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int)(Math.random()*getAtac())+1;
 	}
 
 	@Override
 	public int rebreDany(int quantitat) {
-		// TODO Auto-generated method stub
+		setVida(getVida() - quantitat);
 		return 0;
 	}
 
 	@Override
 	public boolean estaViu() {
-		// TODO Auto-generated method stub
-		return false;
+		if(vida > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 

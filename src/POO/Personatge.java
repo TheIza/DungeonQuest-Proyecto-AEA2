@@ -14,62 +14,47 @@ public class Personatge implements Combatent {
 
 
 
-	public Personatge(String nom, int vida, int atac, int agilitat, int forsa) {
+	public Personatge(String nom) {
 
 		this.nom = nom;
-		if (vida >= 5 && vida <= 20) {
-			this.vida = vida;
-		} else {
-			this.vida = 5;
-		}
-
-		if (atac >= 1 && atac <= 4) {
-			this.atac = atac;
-		} else {
-			this.atac = 1;
-		}
-
-		if (agilitat >= 4 && agilitat <= 11) {
-			this.agilitat = agilitat;
-		} else {
-			this.agilitat = 4;
-		}
-
-		if (forsa >= 4 && forsa <= 11) {
-			this.forsa = forsa;
-			this.equipament = new Tresor[forsa];
-		} else {
-			this.forsa = 4;
-			this.equipament = new Tresor[4];
-		}
+		this.vida = valorRandom(5, 20);
+		this.atac = valorRandom(1, 4);
+		this.agilitat = valorRandom(4, 11);
+		this.forsa = valorRandom(4, 11);
+		this.equipament = new Tresor[forsa];
 		this.posicio[0] = 0;
 		this.posicio[1] = 0;
 
 	}
 
+
+
 	public int getVida() {
 		return vida;
 	}
 
+	//si la vida es mayor que el maximo(20), ponemos el maximo permitido, para el minimo no porque debe poder morir
 	public void setVida(int vida) {
-		// si la vida aplicada supera el màxim o el mínim, s'aplica una vida mínima
-		if (vida >= 5 && vida <= 20) {
-			this.vida = vida;
+		if(vida > 20) {
+			this.vida = 20;
 		} else {
-			this.vida = 5;
+			this.vida = vida;
 		}
 	}
 
+	
 	public int getAtac() {
 		return atac;
 	}
 
+	// si el ataque es mayor o menor de los maximos se les podra el valor mas cercano dentro de los limites
 	public void setAtac(int atac) {
-		// si l'atac aplicat supera el màxim o el mínim, s'aplica un atac mínim
-		if (atac >= 1 && atac <= 4) {
-			this.atac = atac;
+		if(atac < 1) {
+		this.atac = 1;
+		} else if(atac > 4) {
+			this.atac = 4;
 		} else {
-			this.atac = 1;
+			this.atac = atac;
 		}
 	}
 
@@ -78,28 +63,31 @@ public class Personatge implements Combatent {
 	}
 
 	public void setAgilitat(int agilitat) {
-		// si l'agilitat aplicada supera el màxim o el mínim, s'aplica una agilitat mínima
-		if (agilitat >= 4 && agilitat <= 11) {
-			this.agilitat = agilitat;
-		} else {
+		if(agilitat < 4) {
 			this.agilitat = 4;
-		}
+			} else if(agilitat > 11) {
+				this.agilitat = 11;
+			} else {
+				this.agilitat = agilitat;
+			}
 	}
+
 
 	public int getForsa() {
 		return forsa;
 	}
 
 	public void setForsa(int forsa) {
-		// si la força aplicada supera el màxim o el mínim, s'aplica una força mínima
-		if (forsa >= 4 && forsa <= 11) {
-			this.forsa = forsa;
-		} else {
+		if(forsa < 4) {
 			this.forsa = 4;
-		}
+			} else if(forsa > 11) {
+				this.forsa = 11;
+			} else {
+				this.forsa = forsa;
+			}
 	}
 
-
+	
 	public int[] getPosicio() {
 		return posicio;
 	}
@@ -170,8 +158,8 @@ public class Personatge implements Combatent {
 
 	@Override
 	public int rebreDany(int quantitat) {
-		setVida(getVida() - quantitat);
-		return 0;
+	    setVida(getVida() - quantitat);
+	    return getVida();
 	}
 
 	@Override
@@ -181,6 +169,9 @@ public class Personatge implements Combatent {
 		} else {
 			return false;
 		}
+	}
+	public int valorRandom(int minimo, int maximo) {
+		 return (int)(Math.random() * (maximo - minimo + 1)) + minimo;
 	}
 
 

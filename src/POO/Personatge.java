@@ -1,5 +1,7 @@
 package POO;
 
+import java.util.Arrays;
+
 public class Personatge implements Combatent {
 	private String nom;
 	private int vida;
@@ -7,116 +9,165 @@ public class Personatge implements Combatent {
 	private int experencia = 0;
 	private int agilitat;
 	private int forsa;
-	private int posicioFila;
-	private int posicioCol;
+	private int[] posicio = new int[2];
 	private Tresor[] equipament = new Tresor[forsa];
+	
+	
 
-
-	public Personatge(String nom, int vida, int atac, int agilitat, int forsa, int posicioFila, int posicioCol) {
+	public Personatge(String nom, int vida, int atac, int agilitat, int forsa) {
 
 		this.nom = nom;
-		this.vida = vida ;
-		this.atac = atac;
-		this.agilitat = agilitat;
-		this.forsa = forsa;
-		this.posicioFila = posicioFila;
-		this.posicioCol = posicioCol;
-		this.equipament = new Tresor[forsa];
-	}
-
-
-
-	public int getVida() {
-		return vida;
-	}
-
-
-
-	public void setVida(int vida) {
-
-		if (vida >= 5 && vida <= 20) { 
+		if (vida >= 5 && vida <= 20) {
 			this.vida = vida;
 		} else {
 			this.vida = 5;
 		}
 
+		if (atac >= 1 && atac <= 4) {
+			this.atac = atac;
+		} else {
+			this.atac = 1;
+		}
+
+		if (agilitat >= 4 && agilitat <= 11) {
+			this.agilitat = agilitat;
+		} else {
+			this.agilitat = 4;
+		}
+
+		if (forsa >= 4 && forsa <= 11) {
+			this.forsa = forsa;
+			this.equipament = new Tresor[forsa];
+		} else {
+			this.forsa = 4;
+			this.equipament = new Tresor[4];
+		}
+
+		}
+
+	public int getVida() {
+		return vida;
 	}
 
+	public void setVida(int vida) {
+		// si la vida aplicada supera el màxim o el mínim, s'aplica una vida mínima
+		if (vida >= 5 && vida <= 20) {
+			this.vida = vida;
+		} else {
+			this.vida = 5;
+		}
+	}
 
 	public int getAtac() {
 		return atac;
 	}
 
-
-
 	public void setAtac(int atac) {
-		
-		if (atac >= 1 && atac <= 4) { 
+		// si l'atac aplicat supera el màxim o el mínim, s'aplica un atac mínim
+		if (atac >= 1 && atac <= 4) {
 			this.atac = atac;
 		} else {
 			this.atac = 1;
 		}
 	}
 
-
-
 	public int getAgilitat() {
 		return agilitat;
 	}
 
-
-
 	public void setAgilitat(int agilitat) {
-		if (agilitat >= 4 && agilitat <= 11) { 
+		// si l'agilitat aplicada supera el màxim o el mínim, s'aplica una agilitat mínima
+		if (agilitat >= 4 && agilitat <= 11) {
 			this.agilitat = agilitat;
 		} else {
 			this.agilitat = 4;
 		}
-		
 	}
-
-
 
 	public int getForsa() {
 		return forsa;
 	}
 
-
-
 	public void setForsa(int forsa) {
-		
-		if (forsa >= 4 && forsa <= 11) { 
+		// si la força aplicada supera el màxim o el mínim, s'aplica una força mínima
+		if (forsa >= 4 && forsa <= 11) {
 			this.forsa = forsa;
 		} else {
 			this.forsa = 4;
 		}
 	}
+	
+	
+	public int[] getPosicio() {
+		return posicio;
+	}
 
-
+	public void setPosicio(int posFila, int posCol) {
+		this.posicio[0] = posFila;
+		this.posicio[1] = posCol;
+	}
 
 	
+	// ToString
+
+	public String toString() {
+		return "Personatge: " + nom + "\n" + "Vida: " + vida + "\n" +
+				"Atac: " + atac + "\n" + "Experencia: " + experencia + "\n" +
+				"Agilitat: " + agilitat + "\n" + "Forsa: " + forsa  + "\n" +
+				"Equipament: " + Arrays.toString(equipament) + "\n" +
+						"PosicioFila: " + posicio[0] + "\n" + "PosicioCol: " + posicio[1];
+	}
+
+	/**
+	 * 
+	 * @param m
+	 */
 	public void atacar(Monstre m) {
-	int dano = atac;
-		m.setVida(m.getVida() - dano);
-		System.out.println("Atacado monstruo, Daño: " + dano);
-		System.out.println("Vida restante de " + m.getNom() + ": " + m.getVida());
+		int dany = atac;
+		// apliquem a la vida del monstre la seva vida actual menys el dany
+		m.setVida(m.getVida() - dany);
+		// mostrem el dany i la vida restant d'aquest
+		System.out.println("Monstre atacat, dany: " + dany);
+		System.out.println("Vida restant de " + m.getNom() + ": " + m.getVida());
+	}
+
+	public void explorar() {
+		System.out.println();
 
 	}
-	
+	public void moure(char direccio){
+
+		
+		if(direccio == 'N') {
+			
+		} else if(direccio == 'E') {
+			
+		} else if(direccio == 'S') {
+			
+		} else if(direccio == 'O') {
+			
+		}
+	}
+
 	public int calcularAtac() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	@Override
 	public int rebreDany(int quantitat) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	@Override
 	public boolean estaViu() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	
+
+
+
 }

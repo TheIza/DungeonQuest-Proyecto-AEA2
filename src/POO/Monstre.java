@@ -13,7 +13,7 @@ public class Monstre implements Combatent{
 		this.nom = nom;
 		this.vida = vida;
 		
-		if (penalització <= 0 || penalització >= 3 ) {
+		if (penalització >= 0 || penalització <= 3 ) {
 			this.penalització = penalització;
 		} else {
 			this.penalització = 0;
@@ -23,13 +23,14 @@ public class Monstre implements Combatent{
 	}
 	
 	public int calcularAtac() {
-		int vida = this.vida;
-		vida = 1 + (int) (Math.random() * vida);
-		return vida;
+		return 1 + (int)(Math.random() * this.vida);
 	}
 	
 	public int rebreDany(int quantitat) {
 		vida -= quantitat;
+		if (vida < 0) {
+			vida = 0;
+		}
 		return vida;
 	}
 	

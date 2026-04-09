@@ -11,7 +11,7 @@ public class main {
 		System.out.println(p);
 		int agilitat = 5;
 		int forsa = 8;
-		Personatge d = new Personatge ("Pepe", 3, 3, agilitat, forsa);
+		Personatge d = new Personatge ("Pepe");
 		Sala sw = new SalaTeranyina (o, p, false);
 		
 		System.out.println(sw.intentarSortir(agilitat));

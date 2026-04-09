@@ -87,9 +87,13 @@ public class Personatge implements Combatent {
 		}
 	}
 
-
-	public int[] getPosicio() {
-		return posicio;
+	// pos 0 es la fila y pos 1 es la columna
+	// 0 1 2
+	// 1 2
+	// 2
+	//personatge.getPosicio(0); ~ 
+	public int getPosicio(int posicion) {
+		return posicio[posicion];
 	}
 
 	public void setPosicio(int posFila, int posCol) {

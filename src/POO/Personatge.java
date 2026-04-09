@@ -102,15 +102,18 @@ public class Personatge implements Combatent {
 		System.out.println("Vida restante de " + m.getNom() + ": " + m.getVida());
 
 	}
+	
 	public int calcularAtac() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
 	@Override
 	public int rebreDany(int quantitat) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
 	@Override
 	public boolean estaViu() {
 		// TODO Auto-generated method stub

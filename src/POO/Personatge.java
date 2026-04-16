@@ -42,7 +42,7 @@ public class Personatge implements Combatent {
 		}
 	}
 
-	
+
 	public int getAtac() {
 		return atac;
 	}
@@ -50,7 +50,7 @@ public class Personatge implements Combatent {
 	// si el ataque es mayor o menor de los maximos se les podra el valor mas cercano dentro de los limites
 	public void setAtac(int atac) {
 		if(atac < 1) {
-		this.atac = 1;
+			this.atac = 1;
 		} else if(atac > 4) {
 			this.atac = 4;
 		} else {
@@ -65,11 +65,11 @@ public class Personatge implements Combatent {
 	public void setAgilitat(int agilitat) {
 		if(agilitat < 4) {
 			this.agilitat = 4;
-			} else if(agilitat > 11) {
-				this.agilitat = 11;
-			} else {
-				this.agilitat = agilitat;
-			}
+		} else if(agilitat > 11) {
+			this.agilitat = 11;
+		} else {
+			this.agilitat = agilitat;
+		}
 	}
 
 
@@ -80,16 +80,20 @@ public class Personatge implements Combatent {
 	public void setForsa(int forsa) {
 		if(forsa < 4) {
 			this.forsa = 4;
-			} else if(forsa > 11) {
-				this.forsa = 11;
-			} else {
-				this.forsa = forsa;
-			}
+		} else if(forsa > 11) {
+			this.forsa = 11;
+		} else {
+			this.forsa = forsa;
+		}
 	}
 
-	
-	public int[] getPosicio() {
-		return posicio;
+	// pos 0 es la fila y pos 1 es la columna
+	// 0 1 2
+	// 1 2
+	// 2
+	//personatge.getPosicio(0); ~ 
+	public int getPosicio(int posicion) {
+		return posicio[posicion];
 	}
 
 	public void setPosicio(int posFila, int posCol) {
@@ -123,10 +127,12 @@ public class Personatge implements Combatent {
 		System.out.println("Vida restant de " + m.getNom() + ": " + m.getVida());
 	}
 
-	// TODO revisa que tipo de sala es y lo que hay en la sala
+	// TODO El jugador executarà el seu mètode “explorar” en la sala en què es troba actualment 
+	// i trobarà el tresor que té la sala (si en té) i l’afegirà al seu equipament (si té lloc encara).
+	
 	public void explorar() {
-		System.out.println(); 
-
+		 
+		
 	}
 	public boolean moure(char direccio){
 
@@ -158,8 +164,8 @@ public class Personatge implements Combatent {
 
 	@Override
 	public int rebreDany(int quantitat) {
-	    setVida(getVida() - quantitat);
-	    return getVida();
+		setVida(getVida() - quantitat);
+		return getVida();
 	}
 
 	@Override
@@ -171,7 +177,7 @@ public class Personatge implements Combatent {
 		}
 	}
 	public int valorRandom(int minimo, int maximo) {
-		 return (int)(Math.random() * (maximo - minimo + 1)) + minimo;
+		return (int)(Math.random() * (maximo - minimo + 1)) + minimo;
 	}
 
 

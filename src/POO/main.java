@@ -7,6 +7,7 @@ public class main {
 		
 		Tresor o = new Tresor ("culo", 1, 2.22);
 		Monstre p = new Monstre ("Oscar Odena", 3, 1);
+
 		Personatge d = new Personatge ("Pepe");
 		Sala sw = new SalaTeranyina (o, p, false);
 		

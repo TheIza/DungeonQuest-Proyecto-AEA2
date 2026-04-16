@@ -1,7 +1,6 @@
 package POO;
-
+import java.util.ArrayList;
 import java.util.Arrays;
-//TODO cambiar los valores del constructor para que sean aleatorios
 public class Personatge implements Combatent {
 	private String nom;
 	private int vida;
@@ -10,7 +9,8 @@ public class Personatge implements Combatent {
 	private int agilitat;
 	private int forsa;
 	private int[] posicio = new int[2];
-	private Tresor[] equipament = new Tresor[forsa];
+	private Tresor[] equipament;
+
 
 
 
@@ -101,7 +101,6 @@ public class Personatge implements Combatent {
 		this.posicio[1] = posCol;
 	}
 
-
 	// ToString
 
 	public String toString() {
@@ -112,7 +111,7 @@ public class Personatge implements Combatent {
 				"Equipament: " + Arrays.toString(equipament) + "\n" +
 				"PosicioFila: " + posicio[0] + "\n" + 
 				"PosicioCol: " + posicio[1];
-	} //TODO podria marcar en posicion en que tipo de sala esta
+	} 
 
 	/**
 	 * 
@@ -129,11 +128,49 @@ public class Personatge implements Combatent {
 
 	// TODO El jugador executarà el seu mètode “explorar” en la sala en què es troba actualment 
 	// i trobarà el tresor que té la sala (si en té) i l’afegirà al seu equipament (si té lloc encara).
-	
-	public void explorar() {
-		 
-		
+
+	public void explorar(Sala sala) { // true la sala esta explorada || false la sala no esta explorada
+
+		//si la sala no esta explorada 
+		if(!sala.isExplorada() ) {
+			//si la sala tiene tesoro y hay espacio en el inevntario este se guarda
+			if(sala.ishayTesoro() && hayEspacioInventario()) {
+				System.out.println("La sala te 1 tresor ~ guardat al inventari ");
+				guardarTresor(sala.getTresor());
+			} else if(sala.ishayTesoro() ) {
+				System.out.println("La sala te 1 tesor, pero no hi ha espai a l'inventari ~ tresor perdut...");
+			}			
+			sala.setExplorada(true);
+		} else { // la sala esta exploraada
+			System.out.println("Aquesta sala ja esta explorada");
+		}
+
 	}
+	
+	public boolean hayEspacioInventario() {
+		int cont = 0;
+		for (int i = 0; i < equipament.length; i++) {
+			if(equipament[i] != null) {
+				cont++;
+			}
+		}
+		if(cont < forsa) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void guardarTresor(Tresor tresor) {
+		boolean fin = false;
+		for (int i = 0; i < equipament.length; i++) {
+			if(equipament[i] == null && !fin) {
+				equipament[i] = tresor;
+				fin = true;
+			}
+		}
+	}
+
 	public boolean moure(char direccio){
 
 		if(direccio == 'N' && (posicio[0]-1) >= 0) {
@@ -155,6 +192,8 @@ public class Personatge implements Combatent {
 		}
 
 	}
+
+
 
 	@Override
 	//devuelve un valor random entre 1 y la fuerza del personaje

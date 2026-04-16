@@ -6,18 +6,25 @@ public class Monstre implements Combatent{
 	private int penalització;
 	private int valorExperiencia;
 	
+	private final String[] arrayNombres = {
+		    "Gorvax",
+		    "Zulmar",
+		    "Thrakon",
+		    "Mordak",
+		    "Vexor",
+		    "Kragnar",
+		    "Blutox",
+		    "Nargul",
+		    "Zerath",
+		    "Drokul"
+		};
 	
+	public Monstre(int vida, int penalització) {
 	
-	public Monstre(String nom, int vida, int penalització) {
-	
-		this.nom = nom;
+		this.nom = nombreAleatorio();
 		this.vida = vida;
 		
-		if (penalització >= 0 || penalització <= 3 ) {
-			this.penalització = penalització;
-		} else {
-			this.penalització = 0;
-		}
+		this.penalització = valorRandom(0,3);
 		
 		this.valorExperiencia = (vida * 2);
 	}
@@ -61,7 +68,7 @@ public class Monstre implements Combatent{
 	}
 
 	public void setPenalització(int penalització) {
-		this.penalització = penalització;
+		this.penalització = valorRandom(0,3);
 	}
 
 	public int getValorExperiencia() {
@@ -73,9 +80,15 @@ public class Monstre implements Combatent{
 	}
 
 	public String toString() {
-		return "Nom: " + nom + "\n" + "Vida: " + vida;
+		return "Monstre: " + nom + "\n" + "Vida: " + vida;
 	}
 	
+	public int valorRandom(int minimo, int maximo) {
+		return (int)(Math.random() * (maximo - minimo + 1)) + minimo;
+	}
+	public String nombreAleatorio(){
 	
-	
+		int random = (int)(Math.random() * arrayNombres.length);
+		return(arrayNombres[random]);
+	}
 }

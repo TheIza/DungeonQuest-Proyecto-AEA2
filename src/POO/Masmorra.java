@@ -151,6 +151,7 @@ public class Masmorra {
 					personatge.moure(moviment);
 				} else {
 					System.out.println("No pudiste escapar del monstruo...");
+					System.out.println();
 				}
 				// en esta sala puedes escapar 100% asi que recibes una penalizacion por hacerlo
 				if (salaActual instanceof SalaComuna) {

@@ -140,7 +140,9 @@ public class Personatge implements Combatent {
 				guardarTresor(sala.getTresor());
 			} else if(sala.ishayTesoro() ) {
 				System.out.println("La sala te 1 tesor, pero no hi ha espai a l'inventari ~ tresor perdut...");
-			}			
+			} else {
+				System.out.println("No hay tesoros en la sala...");
+			}
 			sala.setExplorada(true);
 		} else { // la sala esta exploraada
 			System.out.println("Aquesta sala ja esta explorada");
@@ -175,17 +177,17 @@ public class Personatge implements Combatent {
 	public void moure(char direccio){
 		boolean fin = false;
 		while (!fin) {
-			if(direccio == 'N' && (posicio[0]-1) >= 0) {
+			if((direccio == 'N' || direccio == 'n' )&& (posicio[0]-1) >= 0) {
 				posicio[0]--;
 				fin = true;
-			} else if(direccio == 'E' && (posicio[1]+1) <= 5) {
+			} else if((direccio == 'E' || direccio == 'e' ) && (posicio[1]+1) <= 5) {
 				posicio[1]++;
 				fin = true;
-			} else if(direccio == 'S' && (posicio[0]+1) <= 5) {
+			} else if((direccio == 'S' || direccio == 's' ) && (posicio[0]+1) <= 5) {
 				posicio[0]++;
 				fin = true;
 
-			} else if(direccio == 'O' && (posicio[1]-1) >= 0) {
+			} else if((direccio == 'O' || direccio == 'o' ) && (posicio[1]-1) >= 0) {
 				posicio[1]--;
 				fin = true;
 			} else {

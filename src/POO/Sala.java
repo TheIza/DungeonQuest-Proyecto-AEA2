@@ -7,16 +7,21 @@ public abstract class Sala {
 	protected Monstre monstre;
 	protected boolean hayMonstruo;
 	protected boolean explorada;
-	
+
+
+
+
 	public Sala(Tresor tresor, Monstre monstre) {
 		this.tresor = tresor;
 		this.monstre = monstre;
-		
-		
+		if (valorRandom(0,5) == 4) {
+			hayMonstruo = true;
+			hayTesoro = true;
+		}
 		this.hayTesoro = valorRandom();
 		this.hayMonstruo = valorRandom();
 	}
-	
+
 	public Tresor getTresor() {
 		return tresor;
 	}
@@ -36,11 +41,11 @@ public abstract class Sala {
 	public boolean ishayTesoro() {
 		return hayTesoro;
 	}
-	
+
 	public boolean ishayMonstruo() {
 		return hayMonstruo;
 	}
-	
+
 	public boolean isExplorada() {
 		return explorada;
 	}
@@ -49,21 +54,25 @@ public abstract class Sala {
 	}
 
 	public abstract boolean intentarSortir(int numeroForsaAgilitat);
-	
-	
+
+
 
 	@Override
 	public String toString() {
 		return "Sala [tresor=" + tresor + ", monstre=" + monstre + ", explorada=" + explorada + "]";
 	}
-	
+
 	public boolean valorRandom() {
-		
+
 		if((int)(Math.random() * 2) == 0) {
 			return false; // si es 0 es false
 		} else {
 			return true; // si es 1 es true
 		}
-		
+
+	}
+
+	public int valorRandom(int minimo, int maximo) {
+		return (int)(Math.random() * (maximo - minimo + 1)) + minimo;
 	}
 }

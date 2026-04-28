@@ -92,7 +92,7 @@ public class Personatge implements Combatent {
 	// 1 2
 	// 2
 	//personatge.getPosicio(0); ~ 
-	
+
 	public int getPosicio(int posicion) {
 		return posicio[posicion];
 	}
@@ -147,7 +147,7 @@ public class Personatge implements Combatent {
 		}
 
 	}
-	
+
 	public boolean hayEspacioInventario() {
 		int cont = 0;
 		for (int i = 0; i < equipament.length; i++) {
@@ -172,26 +172,27 @@ public class Personatge implements Combatent {
 		}
 	}
 
-	public boolean moure(char direccio){
+	public void moure(char direccio){
+		boolean fin = false;
+		while (!fin) {
+			if(direccio == 'N' && (posicio[0]-1) >= 0) {
+				posicio[0]--;
+				fin = true;
+			} else if(direccio == 'E' && (posicio[1]+1) <= 5) {
+				posicio[1]++;
+				fin = true;
+			} else if(direccio == 'S' && (posicio[0]+1) <= 5) {
+				posicio[0]++;
+				fin = true;
 
-		if(direccio == 'N' && (posicio[0]-1) >= 0) {
-			posicio[0]--;
-			return true;
-		} else if(direccio == 'E' && (posicio[1]+1) <= 5) {
-			posicio[1]++;
-			return true;
-		} else if(direccio == 'S' && (posicio[0]+1) <= 5) {
-			posicio[0]++;
-			return true;
-
-		} else if(direccio == 'O' && (posicio[1]-1) >= 0) {
-			posicio[1]--;
-			return true;
-		} else {
-			System.out.println("Posicion invalida");
-			return false;
+			} else if(direccio == 'O' && (posicio[1]-1) >= 0) {
+				posicio[1]--;
+				fin = true;
+			} else {
+				System.out.println("Posicion invalida");
+				break;
+			}
 		}
-
 	}
 
 

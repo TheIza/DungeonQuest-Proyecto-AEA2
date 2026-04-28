@@ -12,29 +12,17 @@ public class main {
 		Masmorra.crearMasmorra();
 
 		Personatge personatge = new Personatge("Pepe");
-
+		boolean fin = false;
+		while(!fin) {
+		System.out.println("-------------------------------");
 		Masmorra.mostrarMasmorra(personatge);
 		System.out.println();
-		Masmorra.mostrarMasmorraSinOcultar(personatge);
-
-
-		int menu = Masmorra.mostrarOpciones();
-
-		switch (menu) {
-		case 0:
-			System.out.println("Explorar");
-			Sala salaActual = Masmorra.obtenirSalaActual(personatge);
-			personatge.explorar(salaActual);
-			
-			break;
-		case 1:
-			System.out.println("Moure");
-			break;
-		case 2:
-			System.out.println("Atacar");
-			break;
+		Masmorra.mostrarOpciones(personatge);
+		System.out.println();
 		}
-
+		
+		
+		
 		
 	}
 }

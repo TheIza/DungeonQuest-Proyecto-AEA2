@@ -109,13 +109,33 @@ import java.util.Scanner;
 			return sales[personatge.getPosicio(0)][personatge.getPosicio(1)];
 		}
 
-		public static int mostrarOpciones(){
-				System.out.println("\nEscoge algo:");
-				System.out.println("0. Explorar");
-				System.out.println("1. Moure");
-				System.out.println("2. Atacar");
-				Scanner teclado = new Scanner(System.in);
-				return teclado.nextInt();
+		public static void mostrarOpciones(Personatge personatge){
+			
+			System.out.println("0.Explorar");
+			System.out.println("1.Moure");
+			System.out.println("2.Atacar");
+			System.out.println();
+			System.out.println("Opcio:");
+			Scanner teclado = new Scanner(System.in);
+			int menu = teclado.nextInt();
+			System.out.println();
+			switch (menu) {
+			case 0:
+				System.out.println("-Explorar-");
+				Sala salaActual = Masmorra.obtenirSalaActual(personatge);
+				personatge.explorar(salaActual);
+
+				break;
+			case 1:
+				System.out.println("-Moure-");
+				System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
+				char moviment = teclado.next().charAt(0);
+				personatge.moure(moviment);
+				break;
+			case 2:
+				System.out.println("-Atacar-");
+				break;
+			}
 
 		}
 

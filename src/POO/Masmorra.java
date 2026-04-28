@@ -115,73 +115,94 @@ public class Masmorra {
 		System.out.println("1.Moure");
 		System.out.println("2.Atacar");
 		System.out.println();
-		System.out.println("Opcio:");
+		System.out.print("Opcio: ");
 		Scanner teclado = new Scanner(System.in);
 		int menu = teclado.nextInt();
 		System.out.println();
-
+		
 		Sala salaActual = Masmorra.obtenirSalaActual(personatge);
 		Monstre monstreSalaActual = salaActual.getMonstre();
 
 		switch (menu) {
+
 		case 0:
-			System.out.println("-Explorar-");
-			personatge.explorar(salaActual);
+		    System.out.println("-Explorar-");
+		    personatge.explorar(salaActual);
+		    break;
 
-			break;
 		case 1:
-			System.out.println("-Moure-");
-			
-			if (salaActual.ishayMonstruo()) {
-				System.out.println("Hay un monstruo en la sala... Intentaras escapar de el");
-				if(salaActual instanceof SalaTeranyina && salaActual.intentarSortir(personatge.getForsa()) ) {
-					System.out.println("Escapaste!  A donde quieres ir");
-					
-					System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
-					char moviment = teclado.next().charAt(0);
-					personatge.moure(moviment);
-				} else {
-					System.out.println("No pudiste escapar del monstruo...");
-				}
-				if (salaActual instanceof SalaPont && salaActual.intentarSortir(personatge.getAgilitat()) ) {
-					System.out.println("Escapaste!  A donde quieres ir");
-					
-					System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
-					char moviment = teclado.next().charAt(0);
-					personatge.moure(moviment);
-				} else {
-					System.out.println("No pudiste escapar del monstruo...");
-					System.out.println();
-				}
-				// en esta sala puedes escapar 100% asi que recibes una penalizacion por hacerlo
-				if (salaActual instanceof SalaComuna) {
-					System.out.println("Escapaste!  A donde quieres ir");
-					System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
-					char moviment = teclado.next().charAt(0);
-					personatge.moure(moviment);
-					
-					//penalizacion a personaje por escapar facil
-					personatge.setVida(personatge.getVida() - monstreSalaActual.getPenalització()); 
-				}
+		    boolean puedeMover = false;
 
-			} else {
-				System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
-				char moviment = teclado.next().charAt(0);
-				personatge.moure(moviment);
-			}
+		    System.out.println("-Moure-");
 
-			if(salaActual.ishayMonstruo()) {
-				System.out.println("En la sala actual hay un monstruo");
-				Monstre monstre = salaActual.getMonstre();
-				System.out.println(monstre);					
-			}
+		    // Si hay un monstruo
+		    if (salaActual.getMonstre() != null && salaActual.getMonstre().estaViu()) {
+		     	System.out.println("- - - - - - - - - - - - - - - - - ");
+		        System.out.println("Hay un monstruo en la sala... Intentaras escapar de el.");
 
-			break;
+		        if (salaActual instanceof SalaTeranyina && salaActual.intentarSortir(personatge.getForsa())) {
+		            System.out.println("Escapaste!  A donde quieres ir");
+		            puedeMover = true;
+
+		        } else if (salaActual instanceof SalaTeranyina) {
+		            System.out.println("No pudiste escapar del monstruo...");
+		        }
+
+		        if (salaActual instanceof SalaPont && salaActual.intentarSortir(personatge.getAgilitat())) {
+		            System.out.println("Escapaste!  A donde quieres ir");
+		            puedeMover = true;
+
+		        } else if (salaActual instanceof SalaPont) {
+		            System.out.println("No pudiste escapar del monstruo...");
+		        }
+
+		        // en esta sala puedes escapar 100% asi que recibes una penalizacion por hacerlo
+		        if (salaActual instanceof SalaComuna) {
+		        		System.out.println("Al ser una sala comuna escapaste del monstruo, pero te daño por el camino...");
+		            puedeMover = true;
+
+		            // penalizacion a personaje por escapar facil
+		            personatge.setVida(personatge.getVida() - monstreSalaActual.getPenalització());
+		            System.out.println("Vida actual: " + personatge.getVida());
+		        }
+
+		    } else {
+		        puedeMover = true;
+		    }
+
+		    if (puedeMover) {
+		    	System.out.println();
+		        System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
+		        char moviment = teclado.next().charAt(0);
+		        personatge.moure(moviment);
+
+		        //actualizo la posicion y el monstruo de la sala nueva
+		        salaActual = Masmorra.obtenirSalaActual(personatge);
+		        monstreSalaActual = salaActual.getMonstre();
+		    }
+
+		    // Si hay monstruo en la sala q nos movemos lo muestra
+		    if (salaActual.getMonstre() != null && monstreSalaActual.estaViu()) {
+		    	System.out.println("_-----------------------------------_");
+		    System.out.println("En la sala actual hay un monstruo");
+		    System.out.println(monstreSalaActual);
+		    } else {
+		     	
+		     	System.out.println("_-----------------------------------_");
+		    	System.out.println("no hay monstruo en la sala que te moviste");
+		    }
+
+		    break;
+		
 		case 2:
 			System.out.println("-Atacar-");
 			break;
+			
+		default:
+			System.out.println("OPCION INVALDIA");
 		}
 
+		System.out.println("- - - - - - - - - - - - - - - - - ");
 	}
 
 }

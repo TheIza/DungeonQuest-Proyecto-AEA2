@@ -14,9 +14,8 @@ public class main {
 		Personatge personatge = new Personatge("Pepe");
 		boolean fin = false;
 		while(!fin) {
-		System.out.println("-------------------------------");
+		
 		Masmorra.mostrarMasmorra(personatge);
-		Masmorra.mostrarMasmorraSinOcultar(personatge);
 		System.out.println();
 		Masmorra.mostrarOpciones(personatge);
 		System.out.println();

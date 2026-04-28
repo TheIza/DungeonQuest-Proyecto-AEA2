@@ -18,12 +18,7 @@ public class main {
 		Masmorra.mostrarMasmorraSinOcultar(personatge);
 
 
-		System.out.println("\nEscoge algo:");
-		System.out.println("0. Explorar");
-		System.out.println("1. Moure");
-		System.out.println("2. Atacar");
-
-		int menu = texto.nextInt();
+		int menu = Masmorra.mostrarOpciones();
 
 		switch (menu) {
 		case 0:

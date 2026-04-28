@@ -1,6 +1,7 @@
 	package POO;
 
 	import java.util.Random;
+import java.util.Scanner;
 
 	public class Masmorra {
 
@@ -106,6 +107,16 @@
 		}
 		public static Sala obtenirSalaActual(Personatge personatge) {
 			return sales[personatge.getPosicio(0)][personatge.getPosicio(1)];
+		}
+
+		public static int mostrarOpciones(){
+				System.out.println("\nEscoge algo:");
+				System.out.println("0. Explorar");
+				System.out.println("1. Moure");
+				System.out.println("2. Atacar");
+				Scanner teclado = new Scanner(System.in);
+				return teclado.nextInt();
+
 		}
 
 	}

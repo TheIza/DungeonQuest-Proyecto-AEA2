@@ -1,31 +1,79 @@
 package POO;
 import java.util.ArrayList;
+import java.util.Scanner;
 public class main {
 
 	public static void main(String[] args) {
+		Scanner texto = new Scanner(System.in);
 		// TODO Auto-generated method stub
 		
-		Tresor o = new Tresor ("culo", 1, 2.22);
-		Monstre p = new Monstre ("Oscar Odena", 3, 1);
+		//UN VALOR QUE SE PODRA CAMBIAR A MEDIDA QUE VAYAMOS JUGANDO 
+		boolean explorada = false;
+		Tresor Tresor = new Tresor ("culo", 1, 2.22);
+		Monstre Monstre = new Monstre (3, 1);
 
-		Personatge d = new Personatge ("Pepe");
-		Sala sw = new SalaTeranyina (o, p, false);
+		Personatge Personatge = new Personatge ("Pepe");
 		
+		ArrayList<Sala> salas = new ArrayList<>();
+		Sala SalaComuna = new SalaComuna (Tresor, Monstre,explorada);
+		Sala SalaTeranyina = new SalaTeranyina (Tresor, Monstre, explorada);
+		Sala SalaPont = new SalaPont (Tresor, Monstre,explorada);
 		
-		Masmorra(d, o, p);
-	
+		salas.add(SalaComuna);
+		salas.add(SalaTeranyina);
+		salas.add(SalaPont);
+		
+		Masmorra(Personatge, Tresor, Monstre, salas);
+
+		System.out.println("escoge algo");
+		int menu = texto.nextInt();
+		switch (menu) {
+			case 0:
+			System.out.println("Explorar");
+			case 1:
+			System.out.println("Moure");
+			case 2: 
+			System.out.println("Atacar");
+
+		}
+		
 	}
-
-
-	public static void Masmorra (Personatge personatge,Tresor tresor, Monstre monstre) {
-
-		int[] arrayPersonatge = personatge.getPosicio();
-		boolean d = false;
+	/** 
+	 * ni idea de que hago fr
+	 * @param salas
+	 * @param numeroSala
+	 * @return
+	 */
+	
+	// yayaya muy bonito, pero como hago ahora que los valores se vayan cambiando 
+	// ni idea, mas tarde lo veo 
+	public static Sala tipoMasmorra(ArrayList<Sala> salas, int numeroSala) {
+	    for (Sala sala : salas) {
+	        if (numeroSala <= 2 && sala instanceof SalaComuna) {
+	            return (SalaComuna) sala;
+	        } else if ((numeroSala == 3 || numeroSala == 4) && sala instanceof SalaPont) {
+	            return (SalaPont) sala;
+	        } else if (numeroSala > 4 && numeroSala <= 10 && sala instanceof SalaTeranyina) {
+	            return (SalaTeranyina) sala;
+	        }
+	    }
+	    return null;
+	}
+	
+	
+	public static void Masmorra (Personatge personatge,Tresor tresor, Monstre monstre, ArrayList<Sala> salass) {
+		int posicionFilaJugador = personatge.getPosicio(0);
+		int posicionColumnaJugador = personatge.getPosicio(1);
+		int[] arrayPersonatge = {posicionFilaJugador, posicionColumnaJugador };
 		
+		boolean d = false;
+		/**
+		 * for para poder imprimir todo lo de antes 
+		 */
 		for (int fila = 0; fila < 6; fila++) {
 			d = arrayPersonatge[0] == fila;
 			for (int columna = 0; columna < 6; columna++) {
-				int Salas = (int) (Math.random() * 20) +1;
+				int Salas = (int) (Math.random() * 10) +1;
 
 				boolean SalaTeranyina = false;
 				boolean SalaPont = false;
@@ -33,10 +81,13 @@ public class main {
 				
 				if (Salas <= 2) {
 					SalaTeranyina = true;
+					tipoMasmorra(salass, Salas);
 				} else if (Salas == 3 || Salas == 4){
 					SalaPont = true;
+					tipoMasmorra(salass, Salas);
 				} else if (Salas > 4 && Salas <= 10){
 					SalaComuna = true;
+					tipoMasmorra(salass, Salas);
 				}
 				
 				if (d && arrayPersonatge[1] == columna) {
@@ -54,9 +105,13 @@ public class main {
 				
 			}
 			System.out.println();
+			
+
 		}
+		System.out.println("1. **Explorar** (si la sala encara no ha sigut explorada).\r\n"
+				+ "2. **Moure** (moure cap a una sala adjacent a la que està actualment el personatge).\r\n"
+				+ "3. **Atacar** (si en la sala hi ha un monstre)");
 	}
-	
-	
+
 	
 }

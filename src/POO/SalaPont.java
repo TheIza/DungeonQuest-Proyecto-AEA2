@@ -2,8 +2,8 @@ package POO;
 
 public class SalaPont extends Sala{
 
-	public SalaPont(Tresor tresor, Monstre monstre, boolean explorada) {
-		super(tresor, monstre, explorada);
+	public SalaPont(Tresor tresor, Monstre monstre) {
+		super(tresor, monstre);
 		// TODO Auto-generated constructor stub
 	}
 

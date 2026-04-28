@@ -1,62 +1,45 @@
 package POO;
-import java.util.ArrayList;
+
+import java.util.Scanner;
+
 public class main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		Tresor o = new Tresor ("culo", 1, 2.22);
-		Monstre p = new Monstre ("Oscar Odena", 3, 1);
-
-		Personatge d = new Personatge ("Pepe");
-		Sala sw = new SalaTeranyina (o, p, false);
-		
-		
-		Masmorra(d, o, p);
-	
-	}
+		Scanner texto = new Scanner(System.in);
 
 
-	public static void Masmorra (Personatge personatge,Tresor tresor, Monstre monstre) {
+		Masmorra.inicialitzarDades();
+		Masmorra.crearMasmorra();
 
-		int[] arrayPersonatge = personatge.getPosicio();
-		boolean d = false;
-		
-		for (int fila = 0; fila < 6; fila++) {
-			d = arrayPersonatge[0] == fila;
-			for (int columna = 0; columna < 6; columna++) {
-				int Salas = (int) (Math.random() * 20) +1;
+		Personatge personatge = new Personatge("Pepe");
 
-				boolean SalaTeranyina = false;
-				boolean SalaPont = false;
-				boolean SalaComuna = false;
-				
-				if (Salas <= 2) {
-					SalaTeranyina = true;
-				} else if (Salas == 3 || Salas == 4){
-					SalaPont = true;
-				} else if (Salas > 4 && Salas <= 10){
-					SalaComuna = true;
-				}
-				
-				if (d && arrayPersonatge[1] == columna) {
-					System.out.print("&");
-				} else if (SalaTeranyina) {
-					System.out.print("1");
-				} else if (SalaPont) {
-					System.out.print("2");
-				} else if (SalaComuna){
-					System.out.print("3");
-				} else {
-					System.out.print("-");
-				}
-				
-				
-			}
-			System.out.println();
+		Masmorra.mostrarMasmorra(personatge);
+		System.out.println();
+		Masmorra.mostrarMasmorraSinOcultar(personatge);
+
+
+		System.out.println("\nEscoge algo:");
+		System.out.println("0. Explorar");
+		System.out.println("1. Moure");
+		System.out.println("2. Atacar");
+
+		int menu = texto.nextInt();
+
+		switch (menu) {
+		case 0:
+			System.out.println("Explorar");
+			Sala salaActual = Masmorra.obtenirSalaActual(personatge);
+			personatge.explorar(salaActual);
+			
+			break;
+		case 1:
+			System.out.println("Moure");
+			break;
+		case 2:
+			System.out.println("Atacar");
+			break;
 		}
+
+		
 	}
-	
-	
-	
 }

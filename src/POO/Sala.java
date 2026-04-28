@@ -8,10 +8,10 @@ public abstract class Sala {
 	protected boolean hayMonstruo;
 	protected boolean explorada;
 	
-	public Sala(Tresor tresor, Monstre monstre, boolean explorada) {
+	public Sala(Tresor tresor, Monstre monstre) {
 		this.tresor = tresor;
 		this.monstre = monstre;
-		this.explorada = explorada;
+		
 		
 		this.hayTesoro = valorRandom();
 		this.hayMonstruo = valorRandom();

@@ -2,8 +2,8 @@ package POO;
 
 public class SalaTeranyina extends Sala {
 
-	public SalaTeranyina (Tresor tresor, Monstre monstre, boolean explorada) {
-	super(tresor, monstre, explorada);	
+	public SalaTeranyina (Tresor tresor, Monstre monstre) {
+	super(tresor, monstre);	
 	}
 	
 	@Override

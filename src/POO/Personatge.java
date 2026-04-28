@@ -92,6 +92,7 @@ public class Personatge implements Combatent {
 	// 1 2
 	// 2
 	//personatge.getPosicio(0); ~ 
+	
 	public int getPosicio(int posicion) {
 		return posicio[posicion];
 	}

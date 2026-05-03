@@ -13,18 +13,16 @@ public class Personatge implements Combatent {
 
 
 
-
 	public Personatge(String nom) {
 
 		this.nom = nom;
 		this.vida = valorRandom(5, 20);
-		this.atac = forsa;
 		this.agilitat = valorRandom(4, 11);
 		this.forsa = valorRandom(4, 11);
+		this.atac = forsa;
 		this.equipament = new Tresor[forsa];
 		this.posicio[0] = 0;
 		this.posicio[1] = 0;
-
 	}
 
 	public String getNom() {
@@ -94,9 +92,18 @@ public class Personatge implements Combatent {
 		this.posicio[0] = posFila;
 		this.posicio[1] = posCol;
 	}
+	
+	
+	public int getExperencia() {
+		return experencia;
+	}
 
-	// ToString
+	public void setExperencia(int experencia) {
+		this.experencia = experencia;
+	}
 
+
+	
 	public String toString() {
 		return "Personatge: " + nom + "\n" + 
 				"Vida: " + vida + "\n" +
@@ -131,6 +138,7 @@ public class Personatge implements Combatent {
 			if(sala.ishayTesoro() && hayEspacioInventario()) {
 				System.out.println("La sala te 1 tresor ~ guardat al inventari ");
 				guardarTresor(sala.getTresor());
+				
 			} else if(sala.ishayTesoro() ) {
 				System.out.println("La sala te 1 tesor, pero no hi ha espai a l'inventari ~ tresor perdut...");
 			} else {
@@ -167,27 +175,20 @@ public class Personatge implements Combatent {
 		}
 	}
 
-	public void moure(char direccio){
-		boolean fin = false;
-		while (!fin) {
-			if((direccio == 'N' || direccio == 'n' )&& (posicio[0]-1) >= 0) {
-				posicio[0]--;
-				fin = true;
-			} else if((direccio == 'E' || direccio == 'e' ) && (posicio[1]+1) <= 5) {
-				posicio[1]++;
-				fin = true;
-			} else if((direccio == 'S' || direccio == 's' ) && (posicio[0]+1) <= 5) {
-				posicio[0]++;
-				fin = true;
-
-			} else if((direccio == 'O' || direccio == 'o' ) && (posicio[1]-1) >= 0) {
-				posicio[1]--;
-				fin = true;
-			} else {
-				System.out.println("Posicion invalida");
-				break;
-			}
-		}
+	public void moure(char direccio) {
+		if((direccio == 'N' || direccio == 'n') && !(posicio[0] == 0 && posicio[1] == 0)) {
+		    posicio[0]--;
+		} else if (direccio == 'N' || direccio == 'n') {
+	        posicio[0]--;
+	    } else if (direccio == 'E' || direccio == 'e') {
+	        posicio[1]++;
+	    } else if (direccio == 'S' || direccio == 's') {
+	        posicio[0]++;
+	    } else if (direccio == 'O' || direccio == 'o') {
+	        posicio[1]--;
+	    } else {
+	        System.out.println("Direccio invalida");
+	    }
 	}
 
 
@@ -195,7 +196,7 @@ public class Personatge implements Combatent {
 	@Override
 	//devuelve un valor random entre 1 y la fuerza del personaje
 	public int calcularAtac() {
-		return (int)(Math.random()*getAtac())+1;
+		return (int)(Math.random()*getForsa())+1;
 	}
 
 	@Override
@@ -216,6 +217,26 @@ public class Personatge implements Combatent {
 		return (int)(Math.random() * (maximo - minimo + 1)) + minimo;
 	}
 
+	public int getNumTresors() {
+	    int cont = 0;
+	    for (int i = 0; i < equipament.length; i++) {
+	        if (equipament[i] != null) {
+	            cont++;
+	        }
+	    }
+	    return cont;
+	}
+	
+	
+	public int getTotalOr() {
+	    int total = 0;
+	    for (int i = 0; i < equipament.length; i++) {
+	        if (equipament[i] != null) {
+	            total += equipament[i].getValor();
+	        }
+	    }
+	    return total;
+	}
 
 
 

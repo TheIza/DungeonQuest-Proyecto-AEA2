@@ -124,6 +124,10 @@ public class Masmorra {
         switch (menu) {
 
             case 0:
+            		if(salaActual.isExplorada()) {
+                        System.out.println("Esta sala ya ha sido explorada");
+                        break;
+            		}
                 System.out.println("-Explorar-");
                 personatge.explorar(salaActual);
                 break;
@@ -131,7 +135,9 @@ public class Masmorra {
             case 1:
                 boolean puedeMover = false;
                 System.out.println("-Moure-");
-
+                if (Masmorra.hasSortitDeLaMasmorra(personatge)) {
+                    break;
+                }
                 if (salaActual.getMonstre() != null && salaActual.getMonstre().estaViu()) {
                     System.out.println("Hay un monstruo en la sala... Intentaras escapar de el.");
 
@@ -168,11 +174,16 @@ public class Masmorra {
                     System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
                     char moviment = teclado.next().charAt(0);
                     personatge.moure(moviment);
+                    
+                    if (Masmorra.hasSortitDeLaMasmorra(personatge)) {
+                        break;
+                    }
 
                     salaActual = Masmorra.obtenirSalaActual(personatge);
                     monstreSalaActual = salaActual.getMonstre();
                 }
-
+               
+                System.out.println("Te moviste a una nueva sala.");
                 if (salaActual.getMonstre() != null && monstreSalaActual.estaViu()) {
                     System.out.println("En la sala actual hay un monstruo");
                     System.out.println(monstreSalaActual);
@@ -183,6 +194,22 @@ public class Masmorra {
 
             case 2:
                 System.out.println("-Atacar-");
+                if(salaActual.getMonstre() != null && monstreSalaActual.estaViu()) {
+                    personatge.atacar(monstreSalaActual);
+
+                    if(!monstreSalaActual.estaViu()) {
+                        personatge.setExperencia(personatge.getExperencia() + monstreSalaActual.getValorExperiencia());
+                        System.out.println("Mounstruo muerto! Experiencia ganada: " + monstreSalaActual.getValorExperiencia());
+                    } else {
+                    		System.out.println("EL MOUNSTRUO CONTRAATACA");
+                        monstreSalaActual.atacar(personatge);
+                        		if(!personatge.estaViu()) {
+                        			System.out.println("Has muerto...");
+                        		}
+                    }
+                } else {
+                    System.out.println("No hay ningun mounstruo en esta sala.");
+                }
                 break;
 
             default:
@@ -190,5 +217,42 @@ public class Masmorra {
         }
 
         System.out.println("- - - - - - - - - - - - - - - - - ");
+    }
+    
+    public static void mostrarVictoria(Personatge personatge) {
+        System.out.println("--------------------------------");
+        System.out.println("HAS ESCAPADO DE LA MASMORRA");
+        System.out.println("--------------------------------");
+        System.out.println("Experiencia:       " + personatge.getExperencia());
+        System.out.println("Tesoros recojidos: " + personatge.getNumTresors());
+        System.out.println("Monedas de oro:      " + personatge.getTotalOr());
+        System.out.println("Vida restante:      " + personatge.getVida());
+        System.out.println("Masmorra explorada: " + calcularPercentatgeExplorat() + "%");
+    }
+
+    public static void mostrarDerrota(Personatge personatge) {
+        System.out.println("--------------------------------");
+        System.out.println("HAS MORT...");
+        System.out.println("--------------------------------");
+        System.out.println("Experiencia conseguida: " + personatge.getExperencia());
+        System.out.println("Masmorra explorada: " + calcularPercentatgeExplorat() + "%");
+    }
+
+    public static boolean hasSortitDeLaMasmorra(Personatge personatge) {
+        int fila = personatge.getPosicio(0);
+        int col  = personatge.getPosicio(1);
+        return fila < 0 || fila >= FILES || col < 0 || col >= COLUMNES;
+    }
+
+    public static int calcularPercentatgeExplorat() {
+        int explorades = 0;
+        for (int i = 0; i < FILES; i++) {
+            for (int j = 0; j < COLUMNES; j++) {
+                if (sales[i][j].isExplorada()) {
+                    explorades++;
+                }
+            }
+        }
+        return (explorades * 100) / (FILES * COLUMNES);
     }
 }

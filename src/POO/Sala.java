@@ -55,6 +55,9 @@ public abstract class Sala {
     public int valorRandom(int minimo, int maximo) {
         return (int)(Math.random() * (maximo - minimo + 1)) + minimo;
     }
+    public boolean ishayTesoro() {
+    		return tresor != null;
+    	}
 
     @Override
     public String toString() {

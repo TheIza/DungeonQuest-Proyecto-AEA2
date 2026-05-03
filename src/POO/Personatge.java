@@ -141,21 +141,44 @@ public class Personatge implements Combatent {
 		//si la sala no esta explorada 
 		if(!sala.isExplorada() ) {
 			//si la sala tiene tesoro y hay espacio en el inevntario este se guarda
-			if(sala.ishayTesoro() && hayEspacioInventario()) {
-				System.out.println("La sala te 1 tresor ~ guardat al inventari ");
-				guardarTresor(sala.getTresor());
-				
-			} else if(sala.ishayTesoro() ) {
-				System.out.println("La sala te 1 tesor, pero no hi ha espai a l'inventari ~ tresor perdut...");
-			} else {
-				System.out.println("No hay tesoros en la sala...");
-			}
-			sala.setExplorada(true);
-		} else { // la sala esta exploraada
-			System.out.println("Aquesta sala ja esta explorada");
-		}
+				if(sala.ishayTesoro() && hayEspacioInventario()) {
+					Tresor tresor = sala.getTresor();
+					guardarTresor(tresor);
+					//dependinedo del tipo de tesoro tiene un efecto distinto
+					if(tresor instanceof TresorMagic) {
+						int vida = ((TresorMagic) tresor).getVidaRecuperada();
+						//como es negativo, 
+						rebreDany(-vida);
+						System.out.println("TESORO MAGICO! Recuperas" + vida + " de vida. Vida actual: " + getVida());
+					}else if (tresor instanceof TresorMaleit) {
+		                int dany = ((TresorMaleit) tresor).getVidaPerduda();
+		                rebreDany(dany);
+		                setCausaMort("Tesoro maldito");
+		                System.out.println("TESORO MALDITO! Pierdes " + dany + " de vida. Vida actual: " + getVida());
+					}else {
+						System.out.println("Tesoro guardado en el inventario: " + tresor);
+					}
+				} else if (sala.ishayTesoro()) {
+		            System.out.println("Hay un tesoro. pero no suficiente en el inventario. mala suerte");
+		        } else {
+		            System.out.println("No hay ningun tesoro en la sala...");
+		    
+		        }	
+		        // Daño de la trampa al explorar
+		        if (sala instanceof SalaTrampa) {
+		            int dany = ((SalaTrampa) sala).getDanyTrampa();
+		            rebreDany(dany);
+		            setCausaMort("trampa en la sala");
+		            System.out.println("TRAMPA! Pierdes " + dany + " de vida. Vida actual: " + getVida());
+		        }
+		        sala.setExplorada(true);
 
-	}
+			} else {
+		        System.out.println("Esta sala ya esta explorada");
+		    }
+		
+		}
+		
 
 	public boolean hayEspacioInventario() {
 		int cont = 0;

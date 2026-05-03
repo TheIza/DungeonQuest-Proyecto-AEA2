@@ -42,6 +42,14 @@ public class Masmorra {
             }
         }
         sales[0][0].setExplorada(true);
+        
+        /**
+         * añadimos un tipo de final boss en el medio de todo 
+         */
+        Monstre finalBoss = new Monstre(30, 3);
+        finalBoss.setNom("ChikiIbai");
+        sales[FILES/2][COLUMNES/2] = new SalaComuna(null, finalBoss);
+        
     }
 
     private static Sala generarSalaAleatoria() {
@@ -49,20 +57,34 @@ public class Masmorra {
         Tresor tresor = generarTresorAleatori();
         Monstre monstre = generarMonstreAleatori();
 
-        if (numero <= 60) {
+        if (numero <= 50) {
             return new SalaComuna(tresor, monstre);
-        } else if (numero <= 80) {
+        } else if (numero <= 70) {
             return new SalaPont(tresor, monstre);
-        } else {
+        } else if (numero <= 85) {
             return new SalaTeranyina(tresor, monstre);
+        } else {
+            return new SalaTrampa(tresor, monstre);
+            // este en nuestro caso solo tiene un 15% de probabilidad de spawn
         }
+
     }
 
     private static Tresor generarTresorAleatori() {
-        if (random.nextInt(100) < 30) {
+        int rand = random.nextInt(100);
+        if (rand < 20) {
+            return new TresorMagic("Poció màgica", 100, 0.5, valorRandom(2, 5));
+        } else if (rand < 35) {
+            return new TresorMaleit("Anell maleït", 50, 0.3, valorRandom(1, 3));
+        } else if (rand < 60) {
             return tresors[random.nextInt(tresors.length)];
         }
         return null;
+
+    }
+    
+    private static int valorRandom(int min, int max) {
+        return random.nextInt(max - min + 1) + min;
     }
 
     private static Monstre generarMonstreAleatori() {
@@ -79,6 +101,8 @@ public class Masmorra {
                     System.out.print("& ");
                 } else if (sales[i][j].isExplorada()) {
                     System.out.print("* ");
+                } else if (sales[i][j] instanceof SalaTrampa) {
+                    System.out.print("X ");
                 } else {
                     System.out.print("- ");
                 }

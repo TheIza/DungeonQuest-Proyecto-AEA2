@@ -18,7 +18,7 @@ public class Personatge implements Combatent {
 
 		this.nom = nom;
 		this.vida = valorRandom(5, 20);
-		this.atac = valorRandom(1, 4);
+		this.atac = forsa;
 		this.agilitat = valorRandom(4, 11);
 		this.forsa = valorRandom(4, 11);
 		this.equipament = new Tresor[forsa];
@@ -27,7 +27,9 @@ public class Personatge implements Combatent {
 
 	}
 
-
+	public String getNom() {
+		return nom;
+	}
 
 	public int getVida() {
 		return vida;
@@ -47,21 +49,12 @@ public class Personatge implements Combatent {
 		return atac;
 	}
 
-	// si el ataque es mayor o menor de los maximos se les podra el valor mas cercano dentro de los limites
-	public void setAtac(int atac) {
-		if(atac < 1) {
-			this.atac = 1;
-		} else if(atac > 4) {
-			this.atac = 4;
-		} else {
-			this.atac = atac;
-		}
-	}
 
+	
 	public int getAgilitat() {
 		return agilitat;
 	}
-
+	
 	public void setAgilitat(int agilitat) {
 		if(agilitat < 4) {
 			this.agilitat = 4;

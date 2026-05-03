@@ -41,6 +41,16 @@ public class Monstre implements Combatent{
 		return vida;
 	}
 	
+	public void atacar(Personatge p) {
+		int dany = calcularAtac();
+		// apliquem a la vida del monstre la seva vida actual menys el dany
+		p.setVida(p.getVida() - dany);
+		// mostrem el dany i la vida restant d'aquest
+		System.out.println("Monstre atacat, dany: " + dany);
+		System.out.println("Vida restant de " + p.getNom() + ": " + p.getVida());
+	}
+
+	
 	public boolean estaViu() {
 		boolean estatViu = (vida > 0) ?  true : false; 
 		return estatViu;

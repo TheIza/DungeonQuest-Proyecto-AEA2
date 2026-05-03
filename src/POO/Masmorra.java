@@ -74,10 +74,11 @@ import java.util.Scanner;
 						System.out.print("- "); } } System.out.println();
 			} }
 		private static Tresor generarTresorAleatori() {
-			if (random.nextInt(100) < 30) {
-				return tresors[random.nextInt(tresors.length)];
-			}
-			return null;
+		    int num = (int)(Math.random() * 100) + 1; 
+		    if (num <= 30) {
+		        return tresors[(int)(Math.random() * tresors.length)];
+		    }
+		    return null;
 		}
 		
 		public static void mostrarMasmorraSinOcultar(Personatge personatge) {
@@ -134,6 +135,11 @@ import java.util.Scanner;
 				break;
 			case 2:
 				System.out.println("-Atacar-");
+				Monstre mounstruo = generarMonstreAleatori();
+				/**
+				 * haz un while, para que ataque el personaje y despues el mousntruo hasta que la palme
+				 */
+				personatge.atacar(mounstruo);
 				break;
 			}
 

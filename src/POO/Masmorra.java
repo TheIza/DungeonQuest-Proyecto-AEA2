@@ -1,148 +1,194 @@
-	package POO;
+package POO;
 
-	import java.util.Random;
+import java.util.Random;
 import java.util.Scanner;
 
-	public class Masmorra {
+public class Masmorra {
 
-		public static final int FILES = 6;
-		public static final int COLUMNES = 6;
+    public static final int FILES = 6;
+    public static final int COLUMNES = 6;
 
-		private static final Random random = new Random();
+    private static final Random random = new Random();
 
+    public static Tresor[] tresors;
+    public static Monstre[] monstres;
+    public static Sala[][] sales;
 
-		public static Tresor[] tresors;
-		public static Monstre[] monstres;
-		public static Sala[][] sales;
+    public Masmorra() {}
 
+    public static void inicialitzarDades() {
+        tresors = new Tresor[] {
+            new Tresor("Espasa d'or", 150, 4.5),
+            new Tresor("Corona reial", 300, 2.0),
+            new Tresor("Anell màgic", 200, 0.2),
+            new Tresor("Escut antic", 120, 6.0),
+            new Tresor("Collaret de rubins", 250, 1.0)
+        };
 
-		public Masmorra() {
-		}
+        monstres = new Monstre[] {
+            new Monstre(4, 1),
+            new Monstre(6, 1),
+            new Monstre(8, 2),
+            new Monstre(10, 3),
+            new Monstre(12, 3)
+        };
+    }
 
-		public static void inicialitzarDades() {
-			tresors = new Tresor[] {
-					new Tresor("Espasa d'or", 150, 4.5),
-					new Tresor("Corona reial", 300, 2.0),
-					new Tresor("Anell màgic", 200, 0.2),
-					new Tresor("Escut antic", 120, 6.0),
-					new Tresor("Collaret de rubins", 250, 1.0)
-			};
+    public static void crearMasmorra() {
+        sales = new Sala[FILES][COLUMNES];
+        for (int i = 0; i < FILES; i++) {
+            for (int j = 0; j < COLUMNES; j++) {
+                sales[i][j] = generarSalaAleatoria();
+            }
+        }
+        sales[0][0].setExplorada(true);
+    }
 
-			monstres = new Monstre[] {
-					new Monstre(4, 1),
-					new Monstre(6, 1),
-					new Monstre(8, 2),
-					new Monstre(10, 3),
-					new Monstre(12, 3)
-			};
-		}
+    private static Sala generarSalaAleatoria() {
+        int numero = random.nextInt(100) + 1;
+        Tresor tresor = generarTresorAleatori();
+        Monstre monstre = generarMonstreAleatori();
 
-		public static void crearMasmorra() {
-			sales = new Sala[FILES][COLUMNES];
+        if (numero <= 60) {
+            return new SalaComuna(tresor, monstre);
+        } else if (numero <= 80) {
+            return new SalaPont(tresor, monstre);
+        } else {
+            return new SalaTeranyina(tresor, monstre);
+        }
+    }
 
-			for (int i = 0; i < FILES; i++) {
-				for (int j = 0; j < COLUMNES; j++) {
-					sales[i][j] = generarSalaAleatoria();
-				}
-			}
+    private static Tresor generarTresorAleatori() {
+        if (random.nextInt(100) < 30) {
+            return tresors[random.nextInt(tresors.length)];
+        }
+        return null;
+    }
 
-			sales[0][0].setExplorada(true);
-		}
+    private static Monstre generarMonstreAleatori() {
+        if (random.nextInt(100) < 35) {
+            return monstres[random.nextInt(monstres.length)];
+        }
+        return null;
+    }
 
-		private static Sala generarSalaAleatoria() {
-			int numero = random.nextInt(100) + 1;
+    public static void mostrarMasmorra(Personatge personatge) {
+        for (int i = 0; i < FILES; i++) {
+            for (int j = 0; j < COLUMNES; j++) {
+                if (personatge.getPosicio(0) == i && personatge.getPosicio(1) == j) {
+                    System.out.print("& ");
+                } else if (sales[i][j].isExplorada()) {
+                    System.out.print("* ");
+                } else {
+                    System.out.print("- ");
+                }
+            }
+            System.out.println();
+        }
+    }
 
-			Tresor tresor = generarTresorAleatori();
-			Monstre monstre = generarMonstreAleatori();
+    public static void mostrarMasmorraSinOcultar(Personatge personatge) {
+        for (int i = 0; i < FILES; i++) {
+            for (int j = 0; j < COLUMNES; j++) {
+                if (personatge.getPosicio(0) == i && personatge.getPosicio(1) == j) {
+                    System.out.print("& ");
+                } else if (sales[i][j] instanceof SalaComuna) {
+                    System.out.print("C ");
+                } else if (sales[i][j] instanceof SalaPont) {
+                    System.out.print("P ");
+                } else if (sales[i][j] instanceof SalaTeranyina) {
+                    System.out.print("T ");
+                }
+            }
+            System.out.println();
+        }
+    }
 
-			if (numero <= 60) {
-				return new SalaComuna(tresor, monstre);
-			} else if (numero <= 80) {
-				return new SalaPont(tresor, monstre);
-			} else {
-				return new SalaTeranyina(tresor, monstre);
-			}
-		}
-		public static void mostrarMasmorra(Personatge personatge) { 
-			for (int i = 0; i < FILES; i++) { 
-				for (int j = 0; j < COLUMNES; j++) { 
-					if (personatge.getPosicio(0) == i && personatge.getPosicio(1) == j) { 
-						System.out.print("& "); 
-					} else if (sales[i][j].isExplorada()) { 
-						System.out.print("* "); 
-					} else { 
-						System.out.print("- "); } } System.out.println();
-			} }
-		private static Tresor generarTresorAleatori() {
-		    int num = (int)(Math.random() * 100) + 1; 
-		    if (num <= 30) {
-		        return tresors[(int)(Math.random() * tresors.length)];
-		    }
-		    return null;
-		}
-		
-		public static void mostrarMasmorraSinOcultar(Personatge personatge) {
-				
-				for (int i = 0; i < FILES; i++) {
-					for (int j = 0; j < COLUMNES; j++) {
-						if (personatge.getPosicio(0) == i && personatge.getPosicio(1) == j) {
-							System.out.print("& ");
-						} else if (sales[i][j] instanceof SalaComuna) {
-							System.out.print("C ");
-						} else if (sales[i][j] instanceof SalaPont) {
-							System.out.print("P ");
-						} else if (sales[i][j] instanceof SalaTeranyina) {
-							System.out.print("T ");
-						}
-					}
-					System.out.println();
-				}
-			}
+    public static Sala obtenirSalaActual(Personatge personatge) {
+        return sales[personatge.getPosicio(0)][personatge.getPosicio(1)];
+    }
 
-		private static Monstre generarMonstreAleatori() {
-			if (random.nextInt(100) < 35) {
-				return monstres[random.nextInt(monstres.length)];
-			}
-			
-			return null;
-		}
-		public static Sala obtenirSalaActual(Personatge personatge) {
-			return sales[personatge.getPosicio(0)][personatge.getPosicio(1)];
-		}
+    public static void mostrarOpciones(Personatge personatge) {
+        System.out.println("0. Explorar");
+        System.out.println("1. Moure");
+        System.out.println("2. Atacar");
+        System.out.println();
+        System.out.print("Opcio: ");
+        Scanner teclado = new Scanner(System.in);
+        int menu = teclado.nextInt();
+        System.out.println();
 
-		public static void mostrarOpciones(Personatge personatge){
-			
-			System.out.println("0.Explorar");
-			System.out.println("1.Moure");
-			System.out.println("2.Atacar");
-			System.out.println();
-			System.out.println("Opcio:");
-			Scanner teclado = new Scanner(System.in);
-			int menu = teclado.nextInt();
-			System.out.println();
-			switch (menu) {
-			case 0:
-				System.out.println("-Explorar-");
-				Sala salaActual = Masmorra.obtenirSalaActual(personatge);
-				personatge.explorar(salaActual);
+        Sala salaActual = Masmorra.obtenirSalaActual(personatge);
+        Monstre monstreSalaActual = salaActual.getMonstre();
 
-				break;
-			case 1:
-				System.out.println("-Moure-");
-				System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
-				char moviment = teclado.next().charAt(0);
-				personatge.moure(moviment);
-				break;
-			case 2:
-				System.out.println("-Atacar-");
-				Monstre mounstruo = generarMonstreAleatori();
-				/**
-				 * haz un while, para que ataque el personaje y despues el mousntruo hasta que la palme
-				 */
-				personatge.atacar(mounstruo);
-				break;
-			}
+        switch (menu) {
 
-		}
+            case 0:
+                System.out.println("-Explorar-");
+                personatge.explorar(salaActual);
+                break;
 
-	}
+            case 1:
+                boolean puedeMover = false;
+                System.out.println("-Moure-");
+
+                if (salaActual.getMonstre() != null && salaActual.getMonstre().estaViu()) {
+                    System.out.println("Hay un monstruo en la sala... Intentaras escapar de el.");
+
+                    if (salaActual instanceof SalaTeranyina) {
+                        if (salaActual.intentarSortir(personatge.getForsa())) {
+                            System.out.println("Escapaste! A donde quieres ir");
+                            puedeMover = true;
+                        } else {
+                            System.out.println("No pudiste escapar del monstruo...");
+                        }
+                    }
+
+                    if (salaActual instanceof SalaPont) {
+                        if (salaActual.intentarSortir(personatge.getAgilitat())) {
+                            System.out.println("Escapaste! A donde quieres ir");
+                            puedeMover = true;
+                        } else {
+                            System.out.println("No pudiste escapar del monstruo...");
+                        }
+                    }
+
+                    if (salaActual instanceof SalaComuna) {
+                        System.out.println("Al ser una sala comuna escapaste, pero te daño por el camino...");
+                        puedeMover = true;
+                        personatge.setVida(personatge.getVida() - monstreSalaActual.getPenalització());
+                        System.out.println("Vida actual: " + personatge.getVida());
+                    }
+
+                } else {
+                    puedeMover = true;
+                }
+
+                if (puedeMover) {
+                    System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
+                    char moviment = teclado.next().charAt(0);
+                    personatge.moure(moviment);
+
+                    salaActual = Masmorra.obtenirSalaActual(personatge);
+                    monstreSalaActual = salaActual.getMonstre();
+                }
+
+                if (salaActual.getMonstre() != null && monstreSalaActual.estaViu()) {
+                    System.out.println("En la sala actual hay un monstruo");
+                    System.out.println(monstreSalaActual);
+                } else {
+                    System.out.println("No hay monstruo en la sala que te moviste");
+                }
+                break;
+
+            case 2:
+                System.out.println("-Atacar-");
+                break;
+
+            default:
+                System.out.println("OPCION INVALIDA");
+        }
+
+        System.out.println("- - - - - - - - - - - - - - - - - ");
+    }
+}

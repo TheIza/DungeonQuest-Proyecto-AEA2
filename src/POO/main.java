@@ -1,13 +1,17 @@
 package POO;
 
+import java.util.Scanner;
+
 public class main {
 
     public static void main(String[] args) {
-
+    	Scanner texto = new Scanner (System.in);
         Masmorra.inicialitzarDades();
         Masmorra.crearMasmorra();
 
-        Personatge personatge = new Personatge("Pepe");
+        System.out.print("Pon el nombre de tu personaje: ");
+        String nombre = texto.next();
+        Personatge personatge = new Personatge(nombre);
         boolean fin = false;
 
         while (!fin) {

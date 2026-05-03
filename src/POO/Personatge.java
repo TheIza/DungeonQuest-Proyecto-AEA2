@@ -10,7 +10,7 @@ public class Personatge implements Combatent {
 	private int forsa;
 	private int[] posicio = new int[2];
 	private Tresor[] equipament;
-
+	private String causaMort = "";
 
 
 	public Personatge(String nom) {
@@ -102,7 +102,13 @@ public class Personatge implements Combatent {
 		this.experencia = experencia;
 	}
 
-
+	public String getCausaMort() { 
+		return causaMort; 
+	}
+	
+	public void setCausaMort(String causaMort) { 
+		this.causaMort = causaMort; 
+	}
 	
 	public String toString() {
 		return "Personatge: " + nom + "\n" + 
@@ -237,6 +243,7 @@ public class Personatge implements Combatent {
 	    }
 	    return total;
 	}
+
 
 
 

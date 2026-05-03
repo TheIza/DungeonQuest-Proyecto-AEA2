@@ -109,16 +109,23 @@ public class Masmorra {
     }
 
     public static void mostrarOpciones(Personatge personatge) {
-        System.out.println("0. Explorar");
-        System.out.println("1. Moure");
-        System.out.println("2. Atacar");
+
+        Sala salaActual = Masmorra.obtenirSalaActual(personatge);
+
+    		if(!salaActual.isExplorada()) {
+    		    System.out.println("0. Explorar");
+    		} 
+    		System.out.println("1. Moure");
+    		if(salaActual.getMonstre() != null && salaActual.getMonstre().estaViu()) {
+    		    System.out.println("2. Atacar");
+    		}
+    	
         System.out.println();
         System.out.print("Opcio: ");
         Scanner teclado = new Scanner(System.in);
         int menu = teclado.nextInt();
         System.out.println();
 
-        Sala salaActual = Masmorra.obtenirSalaActual(personatge);
         Monstre monstreSalaActual = salaActual.getMonstre();
 
         switch (menu) {
@@ -152,16 +159,26 @@ public class Masmorra {
 
                     if (salaActual instanceof SalaPont) {
                         if (salaActual.intentarSortir(personatge.getAgilitat())) {
-                            System.out.println("Escapaste! A donde quieres ir");
+                            System.out.println("Escapaste del puente y del mountruo! A donde quieres ir");
                             puedeMover = true;
                         } else {
-                            System.out.println("No pudiste escapar del monstruo...");
+                        	 personatge.rebreDany(1);
+                             personatge.setCausaMort("Caida del puenteeee");
+                             System.out.println("Has caido del puente! Vida actual: " + personatge.getVida());
+                             /**
+                              * mas que nada, porque si te vas no le vas a dejar al mounstruo ahi tal cual, asi que te pega un guantazo
+                              */
+                         personatge.rebreDany(monstreSalaActual.getPenalització());
+                         personatge.setCausaMort("Caida del puente y ataque de " + monstreSalaActual.getNom());
+                             System.out.println("El mounstruo te ha atacado por intentar huir, Vida actual: " + personatge.getVida());
                         }
                     }
 
                     if (salaActual instanceof SalaComuna) {
                         System.out.println("Al ser una sala comuna escapaste, pero te daño por el camino...");
                         puedeMover = true;
+                        personatge.rebreDany(monstreSalaActual.getPenalització());
+                        personatge.setCausaMort("Huida y ataque de " + monstreSalaActual.getNom());
                         personatge.setVida(personatge.getVida() - monstreSalaActual.getPenalització());
                         System.out.println("Vida actual: " + personatge.getVida());
                     }
@@ -205,6 +222,7 @@ public class Masmorra {
                         monstreSalaActual.atacar(personatge);
                         		if(!personatge.estaViu()) {
                         			System.out.println("Has muerto...");
+                                    personatge.setCausaMort("Ataque de " + monstreSalaActual.getNom());
                         		}
                     }
                 } else {
@@ -235,6 +253,7 @@ public class Masmorra {
         System.out.println("HAS MORT...");
         System.out.println("--------------------------------");
         System.out.println("Experiencia conseguida: " + personatge.getExperencia());
+        System.out.println("Causa de la muerte:        " + personatge.getCausaMort());
         System.out.println("Masmorra explorada: " + calcularPercentatgeExplorat() + "%");
     }
 

@@ -132,7 +132,7 @@ Mostra:
 1. **`SalaTrampa`** — sala especial que fa dany automàtic en explorar-la
 2. **`TresorMagic`** — tresor que recupera vida en recollir-lo
 3. **`TresorMaleit`** — tresor maleït que fa dany en recollir-lo
-4. **Drac Final** — monstre especial amb 30 de vida al centre de la masmorra (Fila 4 Col 4)
+4. **Drac Final** — monstre especial amb 30 de vida al centre de la masmorra, el monstre pot estar en qualsevol de les 4 posicions centrals del tauler
 
 ---
 

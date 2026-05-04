@@ -149,7 +149,7 @@ public class Personatge implements Combatent {
 						int vida = ((TresorMagic) tresor).getVidaRecuperada();
 						//como es negativo, 
 						rebreDany(-vida);
-						System.out.println("TESORO MAGICO! Recuperas" + vida + " de vida. Vida actual: " + getVida());
+						System.out.println("TESORO MAGICO! Recuperas " + vida + " de vida. Vida actual: " + getVida());
 					}else if (tresor instanceof TresorMaleit) {
 		                int dany = ((TresorMaleit) tresor).getVidaPerduda();
 		                rebreDany(dany);

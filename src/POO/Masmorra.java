@@ -101,8 +101,6 @@ public class Masmorra {
                     System.out.print("& ");
                 } else if (sales[i][j].isExplorada()) {
                     System.out.print("* ");
-                } else if (sales[i][j] instanceof SalaTrampa) {
-                    System.out.print("X ");
                 } else {
                     System.out.print("- ");
                 }
@@ -122,6 +120,8 @@ public class Masmorra {
                     System.out.print("P ");
                 } else if (sales[i][j] instanceof SalaTeranyina) {
                     System.out.print("T ");
+                }  else if (sales[i][j] instanceof SalaTrampa) {
+                    System.out.print("X ");
                 }
             }
             System.out.println();

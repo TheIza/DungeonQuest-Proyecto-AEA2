@@ -10,14 +10,14 @@ public class Monstre implements Combatent{
 		    "Gorvax",
 		    "Zulmar",
 		    "Thrakon",
-		    "Mordak",
+		    "Charcoso",
 		    "Vexor",
-		    "Kragnar",
+		    "Skeleton",
 		    "Blutox",
 		    "Nargul",
-		    "Zerath",
-		    "Drokul"
-		};
+		    "Troll",
+		    "Thanos"
+	};
 	
 	public Monstre(int vida, int penalització) {
 	
@@ -43,11 +43,11 @@ public class Monstre implements Combatent{
 	
 	public void atacar(Personatge p) {
 		int dany = calcularAtac();
-		// apliquem a la vida del monstre la seva vida actual menys el dany
+		// aplicamos a la vida del personaje el daño recibido
 		p.setVida(p.getVida() - dany);
-		// mostrem el dany i la vida restant d'aquest
-		System.out.println("Monstre atacat, dany: " + dany);
-		System.out.println("Vida restant de " + p.getNom() + ": " + p.getVida());
+		// mostramos el daño y la vida restante de este
+		System.out.println("Monstruo atacado, daño: " + dany);
+		System.out.println("Vida restante de " + p.getNom() + ": " + p.getVida());
 	}
 
 	
@@ -90,12 +90,13 @@ public class Monstre implements Combatent{
 	}
 
 	public String toString() {
-		return "Monstre: " + nom + "\n" + "Vida: " + vida;
+		return "Monstruo: " + nom + "\n" + "Vida: " + vida;
 	}
 	
 	public int valorRandom(int minimo, int maximo) {
 		return (int)(Math.random() * (maximo - minimo + 1)) + minimo;
 	}
+	
 	public String nombreAleatorio(){
 	
 		int random = (int)(Math.random() * arrayNombres.length);

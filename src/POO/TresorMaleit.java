@@ -14,7 +14,7 @@ public class TresorMaleit extends Tresor{
 
     @Override
     public String toString() {
-        return super.toString() + " MALEÏT - Perds " + vidaPerduda + " de vida";
+        return super.toString() + " MALEDECIDO - Pierdes " + vidaPerduda + " de vida";
     }
 
 }

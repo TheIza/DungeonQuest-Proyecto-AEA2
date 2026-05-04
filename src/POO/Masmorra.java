@@ -9,7 +9,7 @@ public class Masmorra {
 	public static final int COLUMNES = 6;
 
 	private static final Random random = new Random();
-
+	final static Scanner teclado = new Scanner(System.in);
 	public static Tresor[] tresors;
 	public static Monstre[] monstres;
 	public static Sala[][] sales;
@@ -36,11 +36,18 @@ public class Masmorra {
 
 	public static void crearMasmorra() {
 		sales = new Sala[FILES][COLUMNES];
+		
+		
 		for (int i = 0; i < FILES; i++) {
 			for (int j = 0; j < COLUMNES; j++) {
 				sales[i][j] = generarSalaAleatoria();
 			}
 		}
+		
+		// la primera sala del juego sera 100/100 comuna
+		Tresor tresor = generarTresorAleatori();
+		Monstre monstre = generarMonstreAleatori();
+		sales[0][0] = new SalaComuna(tresor, monstre);
 		sales[0][0].setExplorada(true);
 
 		/**
@@ -159,18 +166,20 @@ public class Masmorra {
 	public static void mostrarOpciones(Personatge personatge) {
 
 		Sala salaActual = Masmorra.obtenirSalaActual(personatge);
+		boolean entroInfo = false;
 
 		if(!salaActual.isExplorada()) {
 			System.out.println("0. Explorar");
 		} 
 		System.out.println("1. Mover");
+
 		if(salaActual.getMonstre() != null && salaActual.getMonstre().estaViu()) {
 			System.out.println("2. Atacar");
 		}
-
+		System.out.println("3. Información");
 		System.out.println();
 		System.out.print("Opción: ");
-		Scanner teclado = new Scanner(System.in);
+
 		int menu = teclado.nextInt();
 		System.out.println();
 
@@ -183,13 +192,13 @@ public class Masmorra {
 				System.out.println("Esta sala ya ha sido explorada");
 				break;
 			}
-			System.out.println("-Explorar-");
+			System.out.println("          -Explorar-");
 			personatge.explorar(salaActual);
 			break;
 
 		case 1:
 			boolean puedeMover = false;
-			System.out.println("-Mover-");
+			System.out.println("          -Mover-");
 			if (Masmorra.hasSortitDeLaMasmorra(personatge)) {
 				break;
 			}
@@ -229,6 +238,19 @@ public class Masmorra {
 					System.out.println("Vida actual: " + personatge.getVida());
 				}
 
+				if(salaActual instanceof SalaTrampa) {
+					System.out.println("Entraste a una sala TRAMPA y con monstruo...");
+					System.out.println("Escaparas con dificultad de las trampas y el monstruo, pero no saldras ileso.");
+					personatge.setVida((personatge.getVida() - monstreSalaActual.getPenalització()) - SalaTrampa.getDanyTrampa());
+					System.out.println("Vida actual: " + personatge.getVida());
+				}
+
+			} else if(salaActual instanceof SalaTrampa) {
+				System.out.println("Entraste a una sala TRAMPA...");
+				System.out.println("Te mueves agilmente entre las trampas pero te clavas una felcha en el pie...");
+				personatge.setVida(personatge.getVida() - SalaTrampa.getDanyTrampa());
+				System.out.println("Vida actual: " + personatge.getVida());
+				puedeMover = true;
 			} else {
 				puedeMover = true;
 			}
@@ -248,7 +270,7 @@ public class Masmorra {
 				monstreSalaActual = salaActual.getMonstre();
 			}
 
-			
+
 			if (salaActual.getMonstre() != null && monstreSalaActual.estaViu()) {
 				System.err.println("! ! EN LA SALA ACTUAL HAY UN MONSTRUO ! !");
 				System.out.println(monstreSalaActual);
@@ -258,7 +280,7 @@ public class Masmorra {
 			break;
 
 		case 2:
-			System.out.println("-Atacar-");
+			System.out.println("          -Atacar-");
 			if(salaActual.getMonstre() != null && monstreSalaActual.estaViu()) {
 				personatge.atacar(monstreSalaActual);
 
@@ -279,11 +301,27 @@ public class Masmorra {
 			}
 			break;
 
+		case 3:
+			System.out.println("          -Información-");
+
+			System.out.println();
+			System.out.println("=-=-==-=-==-=-==-=-==-=-==-=-==-=-==-=-=");
+			System.out.println("| Nombre: " + personatge.getNom() + "\n" +
+					"| Vida: " + personatge.getVida() + "\n" +
+					"| Agilitat: " + personatge.getAgilitat() + "\n" + 
+					"| Forsa: " + personatge.getForsa());
+			System.out.println("=-=-==-=-==-=-==-=-==-=-==-=-==-=-==-=-=");
+			System.out.println();
+			entroInfo =  true;
+			break;
 		default:
 			System.out.println("OPCIÓN INVÁLIDA");
 		}
 
-		System.out.println("- - - - - - - - - - - - - - - - - ");
+		// esto es meramente visual
+		if (!entroInfo) {
+			System.out.println("- - - - - - - - - - - - - - - - - ");
+		}
 	}
 
 	public static void mostrarVictoria(Personatge personatge, String nombre) {

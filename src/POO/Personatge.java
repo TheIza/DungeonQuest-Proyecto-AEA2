@@ -33,7 +33,7 @@ public class Personatge implements Combatent {
 		return vida;
 	}
 
-	//si la vida es mayor que el maximo(20), ponemos el maximo permitido, para el minimo no porque debe poder morir
+	// si la vida es mayor que el máximo (20), ponemos el máximo permitido, para el mínimo no porque debe poder morir
 	public void setVida(int vida) {
 		if(vida > 20) {
 			this.vida = 20;
@@ -82,7 +82,7 @@ public class Personatge implements Combatent {
 	// 0 1 2
 	// 1 2
 	// 2
-	//personatge.getPosicio(0); ~ 
+	// personatge.getPosicio(0);
 
 	public int getPosicio(int posicion) {
 		return posicio[posicion];
@@ -111,13 +111,13 @@ public class Personatge implements Combatent {
 	}
 
 	public String toString() {
-		return "Personatge: " + nom + "\n" + 
+		return "Personaje: " + nom + "\n" + 
 				"Vida: " + vida + "\n" +
-				"Agilitat: " + agilitat + "\n" + 
-				"Forsa: " + forsa  + "\n" +
-				"Equipament: " + Arrays.toString(equipament) + "\n" +
-				"PosicioFila: " + posicio[0] + "\n" + 
-				"PosicioCol: " + posicio[1];
+				"Agilidad: " + agilitat + "\n" + 
+				"Fuerza: " + forsa  + "\n" +
+				"Equipamiento: " + Arrays.toString(equipament) + "\n" +
+				"PosicionFila: " + posicio[0] + "\n" + 
+				"PosicionCol: " + posicio[1];
 	} 
 
 	/**
@@ -126,30 +126,30 @@ public class Personatge implements Combatent {
 	 */
 	public void atacar(Monstre m) {
 		int dany = atac;
-		// apliquem a la vida del monstre la seva vida actual menys el dany
+		// aplicamos a la vida del monstruo su vida actual menos el daño
 		m.setVida(m.getVida() - dany);
-		// mostrem el dany i la vida restant d'aquest
-		System.out.println("Monstre atacat, dany: " + dany);
-		System.out.println("Vida restant de " + m.getNom() + ": " + m.getVida());
+		// mostramos el daño y la vida restante de este
+		System.out.println("Monstruo atacado, daño: " + dany);
+		System.out.println("Vida restante de " + m.getNom() + ": " + m.getVida());
 	}
 
-	// TODO El jugador executarà el seu mètode “explorar” en la sala en què es troba actualment 
-	// i trobarà el tresor que té la sala (si en té) i l’afegirà al seu equipament (si té lloc encara).
+	// TODO El jugador ejecutará su método “explorar” en la sala en la que se encuentra actualmente 
+	// y encontrará el tesoro que tiene la sala (si tiene) y lo añadirá a su equipamiento (si tiene espacio aún).
 
-	public void explorar(Sala sala) { // true la sala esta explorada || false la sala no esta explorada
+	public void explorar(Sala sala) { // true la sala está explorada || false la sala no está explorada
 
-		//si la sala no esta explorada 
+		// si la sala no está explorada 
 		if(!sala.isExplorada() ) {
-			//si la sala tiene tesoro y hay espacio en el inevntario este se guarda
+			// si la sala tiene tesoro y hay espacio en el inventario este se guarda
 			if(sala.ishayTesoro() && hayEspacioInventario()) {
 				Tresor tresor = sala.getTresor();
 				guardarTresor(tresor);
-				//dependinedo del tipo de tesoro tiene un efecto distinto
+				// dependiendo del tipo de tesoro tiene un efecto distinto
 				if(tresor instanceof TresorMagic) {
 					int vida = ((TresorMagic) tresor).getVidaRecuperada();
-					//como es negativo, 
+					// como es negativo, 
 					rebreDany(-vida);
-					System.out.println("TESORO MAGICO! Recuperas " + vida + " de vida. Vida actual: " + getVida());
+					System.out.println("TESORO MÁGICO! Recuperas " + vida + " de vida. Vida actual: " + getVida());
 				}else if (tresor instanceof TresorMaleit) {
 					int dany = ((TresorMaleit) tresor).getVidaPerduda();
 					rebreDany(dany);
@@ -159,11 +159,11 @@ public class Personatge implements Combatent {
 					System.out.println("Tesoro guardado en el inventario: " + tresor);
 				}
 			} else if (sala.ishayTesoro()) {
-				System.out.println("Hay un tesoro. pero no suficiente en el inventario. mala suerte");
+				System.out.println("Hay un tesoro, pero no suficiente espacio en el inventario. mala suerte");
 			} else {
-				System.out.println("No hay ningun tesoro en la sala...");
-
+				System.out.println("No hay ningún tesoro en la sala...");
 			}	
+
 			// Daño de la trampa al explorar
 			if (sala instanceof SalaTrampa) {
 				int dany = ((SalaTrampa) sala).getDanyTrampa();
@@ -171,10 +171,11 @@ public class Personatge implements Combatent {
 				setCausaMort("trampa en la sala");
 				System.out.println("TRAMPA! Pierdes " + dany + " de vida. Vida actual: " + getVida());
 			}
+
 			sala.setExplorada(true);
 
 		} else {
-			System.out.println("Esta sala ya esta explorada");
+			System.out.println("Esta sala ya está explorada");
 		}
 
 	}
@@ -218,14 +219,14 @@ public class Personatge implements Combatent {
 		} else if (direccio == 'O'  && col > 0) {
 			posicio[1]--;
 		} else {
-			System.out.println("Direccio invalida");
+			System.out.println("Dirección inválida");
 		}
 	}
 
 
 
 	@Override
-	//devuelve un valor random entre 1 y la fuerza del personaje
+	// devuelve un valor aleatorio entre 1 y la fuerza del personaje
 	public int calcularAtac() {
 		return (int)(Math.random()*getForsa())+1;
 	}
@@ -244,6 +245,7 @@ public class Personatge implements Combatent {
 			return false;
 		}
 	}
+
 	public int valorRandom(int minimo, int maximo) {
 		return (int)(Math.random() * (maximo - minimo + 1)) + minimo;
 	}
@@ -268,9 +270,4 @@ public class Personatge implements Combatent {
 		}
 		return total;
 	}
-
-
-
-
-
 }

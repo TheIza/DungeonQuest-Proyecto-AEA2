@@ -12,7 +12,7 @@ public class Tresor{
 	}
 
 	public String toString() {
-		return "Tresor: " + nom + "\n" + "Valor en monedes d'or: "+ valor;
+		return "Tesoro: " + nom + "\n" + "Valor en monedas de oro: "+ valor;
 	}
 
 	public int getValor() {

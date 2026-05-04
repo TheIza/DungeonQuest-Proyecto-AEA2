@@ -12,8 +12,15 @@ public class main {
 		System.out.println("   - - - DUNGEON QUEST - - - ");
 		System.out.println();
 
+
+
+
+
+
+
 		System.out.print("Posa el nom del teu personatge: ");
 		String nombre = texto.next();
+		System.out.println();
 		Personatge personatge = new Personatge(nombre);
 		boolean fin = false;
 
@@ -25,7 +32,7 @@ public class main {
 			} else if (Masmorra.hasSortitDeLaMasmorra(personatge)) {
 				Masmorra.mostrarVictoria(personatge, nombre);
 				fin = true;
-				
+
 			} else {
 				Masmorra.mostrarMasmorra(personatge);
 				System.out.println();
@@ -37,7 +44,7 @@ public class main {
 		System.out.println();
 		System.out.println("Creditos:");
 		System.out.println("Hecho por \n \\n    - Marcos.J e Izarbe.L - ");
-		
+
 
 
 

@@ -76,6 +76,6 @@ public abstract class Sala {
 
 	@Override
 	public String toString() {
-		return "Sala [tresor=" + tresor + ", monstre=" + monstre + ", explorada=" + explorada + "]";
+		return "Sala tesoro=" + tresor + ", monstruo=" + monstre + ", explorada=" + explorada + "";
 	}
 }

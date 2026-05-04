@@ -1,7 +1,7 @@
 package POO;
 
 public class SalaTrampa extends Sala{
-	private int danyTrampa;
+	private static int danyTrampa;
 	
 	public SalaTrampa(Tresor tresor, Monstre monstre) {
 		super(tresor, monstre);
@@ -13,7 +13,7 @@ public class SalaTrampa extends Sala{
 		return true;
 	}
 
-    public int getDanyTrampa() {
+    public static int getDanyTrampa() {
         return danyTrampa;
     }
 }

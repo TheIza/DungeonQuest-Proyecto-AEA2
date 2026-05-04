@@ -48,11 +48,11 @@ public class Personatge implements Combatent {
 	}
 
 
-	
+
 	public int getAgilitat() {
 		return agilitat;
 	}
-	
+
 	public void setAgilitat(int agilitat) {
 		if(agilitat < 4) {
 			this.agilitat = 4;
@@ -92,8 +92,8 @@ public class Personatge implements Combatent {
 		this.posicio[0] = posFila;
 		this.posicio[1] = posCol;
 	}
-	
-	
+
+
 	public int getExperencia() {
 		return experencia;
 	}
@@ -105,11 +105,11 @@ public class Personatge implements Combatent {
 	public String getCausaMort() { 
 		return causaMort; 
 	}
-	
+
 	public void setCausaMort(String causaMort) { 
 		this.causaMort = causaMort; 
 	}
-	
+
 	public String toString() {
 		return "Personatge: " + nom + "\n" + 
 				"Vida: " + vida + "\n" +
@@ -141,44 +141,44 @@ public class Personatge implements Combatent {
 		//si la sala no esta explorada 
 		if(!sala.isExplorada() ) {
 			//si la sala tiene tesoro y hay espacio en el inevntario este se guarda
-				if(sala.ishayTesoro() && hayEspacioInventario()) {
-					Tresor tresor = sala.getTresor();
-					guardarTresor(tresor);
-					//dependinedo del tipo de tesoro tiene un efecto distinto
-					if(tresor instanceof TresorMagic) {
-						int vida = ((TresorMagic) tresor).getVidaRecuperada();
-						//como es negativo, 
-						rebreDany(-vida);
-						System.out.println("TESORO MAGICO! Recuperas " + vida + " de vida. Vida actual: " + getVida());
-					}else if (tresor instanceof TresorMaleit) {
-		                int dany = ((TresorMaleit) tresor).getVidaPerduda();
-		                rebreDany(dany);
-		                setCausaMort("Tesoro maldito");
-		                System.out.println("TESORO MALDITO! Pierdes " + dany + " de vida. Vida actual: " + getVida());
-					}else {
-						System.out.println("Tesoro guardado en el inventario: " + tresor);
-					}
-				} else if (sala.ishayTesoro()) {
-		            System.out.println("Hay un tesoro. pero no suficiente en el inventario. mala suerte");
-		        } else {
-		            System.out.println("No hay ningun tesoro en la sala...");
-		    
-		        }	
-		        // Daño de la trampa al explorar
-		        if (sala instanceof SalaTrampa) {
-		            int dany = ((SalaTrampa) sala).getDanyTrampa();
-		            rebreDany(dany);
-		            setCausaMort("trampa en la sala");
-		            System.out.println("TRAMPA! Pierdes " + dany + " de vida. Vida actual: " + getVida());
-		        }
-		        sala.setExplorada(true);
-
+			if(sala.ishayTesoro() && hayEspacioInventario()) {
+				Tresor tresor = sala.getTresor();
+				guardarTresor(tresor);
+				//dependinedo del tipo de tesoro tiene un efecto distinto
+				if(tresor instanceof TresorMagic) {
+					int vida = ((TresorMagic) tresor).getVidaRecuperada();
+					//como es negativo, 
+					rebreDany(-vida);
+					System.out.println("TESORO MAGICO! Recuperas " + vida + " de vida. Vida actual: " + getVida());
+				}else if (tresor instanceof TresorMaleit) {
+					int dany = ((TresorMaleit) tresor).getVidaPerduda();
+					rebreDany(dany);
+					setCausaMort("Tesoro maldito");
+					System.out.println("TESORO MALDITO! Pierdes " + dany + " de vida. Vida actual: " + getVida());
+				}else {
+					System.out.println("Tesoro guardado en el inventario: " + tresor);
+				}
+			} else if (sala.ishayTesoro()) {
+				System.out.println("Hay un tesoro. pero no suficiente en el inventario. mala suerte");
 			} else {
-		        System.out.println("Esta sala ya esta explorada");
-		    }
-		
+				System.out.println("No hay ningun tesoro en la sala...");
+
+			}	
+			// Daño de la trampa al explorar
+			if (sala instanceof SalaTrampa) {
+				int dany = ((SalaTrampa) sala).getDanyTrampa();
+				rebreDany(dany);
+				setCausaMort("trampa en la sala");
+				System.out.println("TRAMPA! Pierdes " + dany + " de vida. Vida actual: " + getVida());
+			}
+			sala.setExplorada(true);
+
+		} else {
+			System.out.println("Esta sala ya esta explorada");
 		}
-		
+
+	}
+
 
 	public boolean hayEspacioInventario() {
 		int cont = 0;
@@ -205,19 +205,23 @@ public class Personatge implements Combatent {
 	}
 
 	public void moure(char direccio) {
+		int fila = getPosicio(0);
+		int col  = getPosicio(1);
+
+		// ARREGLAR Q NOS E SALGA DEL TABLERO
 		if((direccio == 'N' || direccio == 'n') && !(posicio[0] == 0 && posicio[1] == 0)) {
-		    posicio[0]--;
-		} else if (direccio == 'N' || direccio == 'n') {
-	        posicio[0]--;
-	    } else if (direccio == 'E' || direccio == 'e') {
-	        posicio[1]++;
-	    } else if (direccio == 'S' || direccio == 's') {
-	        posicio[0]++;
-	    } else if (direccio == 'O' || direccio == 'o') {
-	        posicio[1]--;
-	    } else {
-	        System.out.println("Direccio invalida");
-	    }
+			posicio[0]--;
+		} else if (direccio == 'N' || direccio == 'n' && fila >= 0 ) {
+			posicio[0]--;
+		} else if (direccio == 'E' || direccio == 'e' && col <= 5) {
+			posicio[1]++;
+		} else if (direccio == 'S' || direccio == 's' && fila <= 5) {
+			posicio[0]++;
+		} else if (direccio == 'O' || direccio == 'o' && col >= 5) {
+			posicio[1]--;
+		} else {
+			System.out.println("Direccio invalida");
+		}
 	}
 
 
@@ -247,24 +251,24 @@ public class Personatge implements Combatent {
 	}
 
 	public int getNumTresors() {
-	    int cont = 0;
-	    for (int i = 0; i < equipament.length; i++) {
-	        if (equipament[i] != null) {
-	            cont++;
-	        }
-	    }
-	    return cont;
+		int cont = 0;
+		for (int i = 0; i < equipament.length; i++) {
+			if (equipament[i] != null) {
+				cont++;
+			}
+		}
+		return cont;
 	}
-	
-	
+
+
 	public int getTotalOr() {
-	    int total = 0;
-	    for (int i = 0; i < equipament.length; i++) {
-	        if (equipament[i] != null) {
-	            total += equipament[i].getValor();
-	        }
-	    }
-	    return total;
+		int total = 0;
+		for (int i = 0; i < equipament.length; i++) {
+			if (equipament[i] != null) {
+				total += equipament[i].getValor();
+			}
+		}
+		return total;
 	}
 
 

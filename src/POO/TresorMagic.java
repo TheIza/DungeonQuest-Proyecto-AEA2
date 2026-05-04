@@ -13,7 +13,7 @@ public class TresorMagic extends Tresor{
 
     @Override
     public String toString() {
-        return super.toString() + " [MAGIC - Recupera " + vidaRecuperada + " de vida]";
+        return super.toString() + " MAGIC - Recupera " + vidaRecuperada + " de vida";
     }
 	
 }

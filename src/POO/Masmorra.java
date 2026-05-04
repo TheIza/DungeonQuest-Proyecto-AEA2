@@ -183,7 +183,7 @@ public class Masmorra {
 
                     if (salaActual instanceof SalaPont) {
                         if (salaActual.intentarSortir(personatge.getAgilitat())) {
-                            System.out.println("Escapaste del puente y del mountruo! A donde quieres ir");
+                            System.out.println("Escapaste del puente y del mounstruo! A donde quieres ir");
                             puedeMover = true;
                         } else {
                         	 personatge.rebreDany(1);
@@ -284,7 +284,14 @@ public class Masmorra {
     public static boolean hasSortitDeLaMasmorra(Personatge personatge) {
         int fila = personatge.getPosicio(0);
         int col  = personatge.getPosicio(1);
-        return fila < 0 || fila >= FILES || col < 0 || col >= COLUMNES;
+        
+        if ((fila <= 0 && col >= 5) || (fila >= 5 && col >= 5) || (fila >= 5 && col <= 0)) {
+        	return true;
+        } else {
+        	return false;
+        }
+        
+//        return fila < 0 || fila >= FILES || col < 0 || col >= COLUMNES;
     }
 
     public static int calcularPercentatgeExplorat() {

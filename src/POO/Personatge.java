@@ -208,16 +208,14 @@ public class Personatge implements Combatent {
 		int fila = getPosicio(0);
 		int col  = getPosicio(1);
 
-		// ARREGLAR Q NOS E SALGA DEL TABLERO
-		if((direccio == 'N' || direccio == 'n') && !(posicio[0] == 0 && posicio[1] == 0)) {
+		direccio = Character.toUpperCase(direccio);
+		if (direccio == 'N' && fila > 0 ) {
 			posicio[0]--;
-		} else if (direccio == 'N' || direccio == 'n' && fila >= 0 ) {
-			posicio[0]--;
-		} else if (direccio == 'E' || direccio == 'e' && col <= 5) {
+		} else if (direccio == 'E' && col < 5) {
 			posicio[1]++;
-		} else if (direccio == 'S' || direccio == 's' && fila <= 5) {
+		} else if (direccio == 'S' && fila < 5) {
 			posicio[0]++;
-		} else if (direccio == 'O' || direccio == 'o' && col >= 5) {
+		} else if (direccio == 'O'  && col > 0) {
 			posicio[1]--;
 		} else {
 			System.out.println("Direccio invalida");

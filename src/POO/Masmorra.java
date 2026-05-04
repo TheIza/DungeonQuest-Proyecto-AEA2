@@ -5,304 +5,328 @@ import java.util.Scanner;
 
 public class Masmorra {
 
-    public static final int FILES = 6;
-    public static final int COLUMNES = 6;
+	public static final int FILES = 6;
+	public static final int COLUMNES = 6;
 
-    private static final Random random = new Random();
+	private static final Random random = new Random();
 
-    public static Tresor[] tresors;
-    public static Monstre[] monstres;
-    public static Sala[][] sales;
+	public static Tresor[] tresors;
+	public static Monstre[] monstres;
+	public static Sala[][] sales;
 
-    public Masmorra() {}
+	public Masmorra() {}
 
-    public static void inicialitzarDades() {
-        tresors = new Tresor[] {
-            new Tresor("Espasa d'or", 150, 4.5),
-            new Tresor("Corona reial", 300, 2.0),
-            new Tresor("Anell màgic", 200, 0.2),
-            new Tresor("Escut antic", 120, 6.0),
-            new Tresor("Collaret de rubins", 250, 1.0)
-        };
+	public static void inicialitzarDades() {
+		tresors = new Tresor[] {
+				new Tresor("Espada de oro", 150, 4.5),
+				new Tresor("Corona real", 300, 2.0),
+				new Tresor("Anillo mágico", 200, 0.2),
+				new Tresor("Escudo antiguo", 120, 6.0),
+				new Tresor("Collar de rubíes", 250, 1.0)
+		};
 
-        monstres = new Monstre[] {
-            new Monstre(4, 1),
-            new Monstre(6, 1),
-            new Monstre(8, 2),
-            new Monstre(10, 3),
-            new Monstre(12, 3)
-        };
-    }
+		monstres = new Monstre[] {
+				new Monstre(4, 1),
+				new Monstre(6, 1),
+				new Monstre(8, 2),
+				new Monstre(10, 3),
+				new Monstre(12, 3)
+		};
+	}
 
-    public static void crearMasmorra() {
-        sales = new Sala[FILES][COLUMNES];
-        for (int i = 0; i < FILES; i++) {
-            for (int j = 0; j < COLUMNES; j++) {
-                sales[i][j] = generarSalaAleatoria();
-            }
-        }
-        sales[0][0].setExplorada(true);
-        
-        /**
-         * añadimos un tipo de final boss en el medio de todo 
-         */
-        Monstre finalBoss = new Monstre(30, 3);
-        finalBoss.setNom("ChikiIbai");
-        sales[FILES/2][COLUMNES/2] = new SalaComuna(null, finalBoss);
-        
-    }
+	public static void crearMasmorra() {
+		sales = new Sala[FILES][COLUMNES];
+		for (int i = 0; i < FILES; i++) {
+			for (int j = 0; j < COLUMNES; j++) {
+				sales[i][j] = generarSalaAleatoria();
+			}
+		}
+		sales[0][0].setExplorada(true);
 
-    private static Sala generarSalaAleatoria() {
-        int numero = random.nextInt(100) + 1;
-        Tresor tresor = generarTresorAleatori();
-        Monstre monstre = generarMonstreAleatori();
+		/**
+		 * Añadimos un boss final en el medio del tablero, este puede salir en cualquiera de las 4 casillas centrales
+		 */
 
-        if (numero <= 50) {
-            return new SalaComuna(tresor, monstre);
-        } else if (numero <= 70) {
-            return new SalaPont(tresor, monstre);
-        } else if (numero <= 85) {
-            return new SalaTeranyina(tresor, monstre);
-        } else {
-            return new SalaTrampa(tresor, monstre);
-            // este en nuestro caso solo tiene un 15% de probabilidad de spawn
-        }
+		Monstre finalBoss = new Monstre(30, 3);
+		finalBoss.setNom("ChikiIbai");
+		int valorRandom = valorRandom(0,4);
 
-    }
+		if(valorRandom == 1) {
+			sales[2][2] = new SalaComuna(null, finalBoss);
+			/*
+			 * x -
+			 * - -
+			 */
+		} else if (valorRandom == 2) {
+			sales[2][3] = new SalaComuna(null, finalBoss);
+			/*
+			 * - x
+			 * - -
+			 */
+		} else if (valorRandom == 3) {
+			sales[3][2] = new SalaComuna(null, finalBoss);
+			/*
+			 * - -
+			 * x -
+			 */
+		} else {
+			sales[3][3] = new SalaComuna(null, finalBoss);
+			/*
+			 * - -
+			 * - x
+			 */
+		}
+	}
 
-    private static Tresor generarTresorAleatori() {
-        int rand = random.nextInt(100);
-        if (rand < 20) {
-            return new TresorMagic("Poció màgica", 100, 0.5, valorRandom(2, 5));
-        } else if (rand < 35) {
-            return new TresorMaleit("Anell maleït", 50, 0.3, valorRandom(1, 3));
-        } else if (rand < 60) {
-            return tresors[random.nextInt(tresors.length)];
-        }
-        return null;
+	private static Sala generarSalaAleatoria() {
+		int numero = random.nextInt(100) + 1;
+		Tresor tresor = generarTresorAleatori();
+		Monstre monstre = generarMonstreAleatori();
 
-    }
-    
-    private static int valorRandom(int min, int max) {
-        return random.nextInt(max - min + 1) + min;
-    }
+		if (numero <= 50) {
+			return new SalaComuna(tresor, monstre);
+		} else if (numero <= 70) {
+			return new SalaPont(tresor, monstre);
+		} else if (numero <= 85) {
+			return new SalaTeranyina(tresor, monstre);
+		} else {
+			return new SalaTrampa(tresor, monstre);
+			// este en nuestro caso solo tiene un 15% de probabilidad de spawn
+		}
+	}
 
-    private static Monstre generarMonstreAleatori() {
-        if (random.nextInt(100) < 35) {
-            return monstres[random.nextInt(monstres.length)];
-        }
-        return null;
-    }
+	private static Tresor generarTresorAleatori() {
+		int rand = random.nextInt(100);
+		if (rand < 20) {
+			return new TresorMagic("Poción mágica", 100, 0.5, valorRandom(2, 5));
+		} else if (rand < 35) {
+			return new TresorMaleit("Anillo maldito", 50, 0.3, valorRandom(1, 3));
+		} else if (rand < 60) {
+			return tresors[random.nextInt(tresors.length)];
+		}
+		return null;
+	}
 
-    public static void mostrarMasmorra(Personatge personatge) {
-        for (int i = 0; i < FILES; i++) {
-            for (int j = 0; j < COLUMNES; j++) {
-                if (personatge.getPosicio(0) == i && personatge.getPosicio(1) == j) {
-                    System.out.print("& ");
-                } else if (sales[i][j].isExplorada()) {
-                    System.out.print("* ");
-                } else {
-                    System.out.print("- ");
-                }
-            }
-            System.out.println();
-        }
-    }
+	private static int valorRandom(int min, int max) {
+		return random.nextInt(max - min + 1) + min;
+	}
 
-    public static void mostrarMasmorraSinOcultar(Personatge personatge) {
-        for (int i = 0; i < FILES; i++) {
-            for (int j = 0; j < COLUMNES; j++) {
-                if (personatge.getPosicio(0) == i && personatge.getPosicio(1) == j) {
-                    System.out.print("& ");
-                } else if (sales[i][j] instanceof SalaComuna) {
-                    System.out.print("C ");
-                } else if (sales[i][j] instanceof SalaPont) {
-                    System.out.print("P ");
-                } else if (sales[i][j] instanceof SalaTeranyina) {
-                    System.out.print("T ");
-                }  else if (sales[i][j] instanceof SalaTrampa) {
-                    System.out.print("X ");
-                }
-            }
-            System.out.println();
-        }
-    }
+	private static Monstre generarMonstreAleatori() {
+		if (random.nextInt(100) < 35) {
+			return monstres[random.nextInt(monstres.length)];
+		}
+		return null;
+	}
 
-    public static Sala obtenirSalaActual(Personatge personatge) {
-        return sales[personatge.getPosicio(0)][personatge.getPosicio(1)];
-    }
+	public static void mostrarMasmorra(Personatge personatge) {
+		for (int i = 0; i < FILES; i++) {
+			for (int j = 0; j < COLUMNES; j++) {
+				if (personatge.getPosicio(0) == i && personatge.getPosicio(1) == j) {
+					System.out.print("& ");
+				} else if (sales[i][j].isExplorada()) {
+					System.out.print("* ");
+				} else {
+					System.out.print("- ");
+				}
+			}
+			System.out.println();
+		}
+	}
 
-    public static void mostrarOpciones(Personatge personatge) {
+	public static void mostrarMasmorraSinOcultar(Personatge personatge) {
+		for (int i = 0; i < FILES; i++) {
+			for (int j = 0; j < COLUMNES; j++) {
+				if (personatge.getPosicio(0) == i && personatge.getPosicio(1) == j) {
+					System.out.print("& ");
+				} else if (sales[i][j] instanceof SalaComuna) {
+					System.out.print("C ");
+				} else if (sales[i][j] instanceof SalaPont) {
+					System.out.print("P ");
+				} else if (sales[i][j] instanceof SalaTeranyina) {
+					System.out.print("T ");
+				}  else if (sales[i][j] instanceof SalaTrampa) {
+					System.out.print("X ");
+				}
+			}
+			System.out.println();
+		}
+	}
 
-        Sala salaActual = Masmorra.obtenirSalaActual(personatge);
+	public static Sala obtenirSalaActual(Personatge personatge) {
+		return sales[personatge.getPosicio(0)][personatge.getPosicio(1)];
+	}
 
-    		if(!salaActual.isExplorada()) {
-    		    System.out.println("0. Explorar");
-    		} 
-    		System.out.println("1. Moure");
-    		if(salaActual.getMonstre() != null && salaActual.getMonstre().estaViu()) {
-    		    System.out.println("2. Atacar");
-    		}
-    	
-        System.out.println();
-        System.out.print("Opcio: ");
-        Scanner teclado = new Scanner(System.in);
-        int menu = teclado.nextInt();
-        System.out.println();
+	public static void mostrarOpciones(Personatge personatge) {
 
-        Monstre monstreSalaActual = salaActual.getMonstre();
+		Sala salaActual = Masmorra.obtenirSalaActual(personatge);
 
-        switch (menu) {
+		if(!salaActual.isExplorada()) {
+			System.out.println("0. Explorar");
+		} 
+		System.out.println("1. Mover");
+		if(salaActual.getMonstre() != null && salaActual.getMonstre().estaViu()) {
+			System.out.println("2. Atacar");
+		}
 
-            case 0:
-            		if(salaActual.isExplorada()) {
-                        System.out.println("Esta sala ya ha sido explorada");
-                        break;
-            		}
-                System.out.println("-Explorar-");
-                personatge.explorar(salaActual);
-                break;
+		System.out.println();
+		System.out.print("Opción: ");
+		Scanner teclado = new Scanner(System.in);
+		int menu = teclado.nextInt();
+		System.out.println();
 
-            case 1:
-                boolean puedeMover = false;
-                System.out.println("-Moure-");
-                if (Masmorra.hasSortitDeLaMasmorra(personatge)) {
-                    break;
-                }
-                if (salaActual.getMonstre() != null && salaActual.getMonstre().estaViu()) {
-                    System.out.println("Hay un monstruo en la sala... Intentaras escapar de el.");
+		Monstre monstreSalaActual = salaActual.getMonstre();
 
-                    if (salaActual instanceof SalaTeranyina) {
-                        if (salaActual.intentarSortir(personatge.getForsa())) {
-                            System.out.println("Escapaste! A donde quieres ir");
-                            puedeMover = true;
-                        } else {
-                            System.out.println("No pudiste escapar del monstruo...");
-                        }
-                    }
+		switch (menu) {
 
-                    if (salaActual instanceof SalaPont) {
-                        if (salaActual.intentarSortir(personatge.getAgilitat())) {
-                            System.out.println("Escapaste del puente y del mounstruo! A donde quieres ir");
-                            puedeMover = true;
-                        } else {
-                        	 personatge.rebreDany(1);
-                             personatge.setCausaMort("Caida del puenteeee");
-                             System.out.println("Has caido del puente! Vida actual: " + personatge.getVida());
-                             /**
-                              * mas que nada, porque si te vas no le vas a dejar al mounstruo ahi tal cual, asi que te pega un guantazo
-                              */
-                         personatge.rebreDany(monstreSalaActual.getPenalització());
-                         personatge.setCausaMort("Caida del puente y ataque de " + monstreSalaActual.getNom());
-                             System.out.println("El mounstruo te ha atacado por intentar huir, Vida actual: " + personatge.getVida());
-                        }
-                    }
+		case 0:
+			if(salaActual.isExplorada()) {
+				System.out.println("Esta sala ya ha sido explorada");
+				break;
+			}
+			System.out.println("-Explorar-");
+			personatge.explorar(salaActual);
+			break;
 
-                    if (salaActual instanceof SalaComuna) {
-                        System.out.println("Al ser una sala comuna escapaste, pero te daño por el camino...");
-                        puedeMover = true;
-                        personatge.rebreDany(monstreSalaActual.getPenalització());
-                        personatge.setCausaMort("Huida y ataque de " + monstreSalaActual.getNom());
-                        personatge.setVida(personatge.getVida() - monstreSalaActual.getPenalització());
-                        System.out.println("Vida actual: " + personatge.getVida());
-                    }
+		case 1:
+			boolean puedeMover = false;
+			System.out.println("-Mover-");
+			if (Masmorra.hasSortitDeLaMasmorra(personatge)) {
+				break;
+			}
+			if (salaActual.getMonstre() != null && salaActual.getMonstre().estaViu()) {
+				System.out.println("Hay un monstruo en la sala... intentarás huir de él.");
 
-                } else {
-                    puedeMover = true;
-                }
+				if (salaActual instanceof SalaTeranyina) {
+					if (salaActual.intentarSortir(personatge.getForsa())) {
+						System.out.println("Has escapado! A donde quieres ir?");
+						puedeMover = true;
+					} else {
+						System.out.println("No has podido escapar del monstruo...");
+					}
+				}
 
-                if (puedeMover) {
-                    System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
-                    char moviment = teclado.next().charAt(0);
-                    personatge.moure(moviment);
-                    
-                    if (Masmorra.hasSortitDeLaMasmorra(personatge)) {
-                        break;
-                    }
+				if (salaActual instanceof SalaPont) {
+					if (salaActual.intentarSortir(personatge.getAgilitat())) {
+						System.out.println("Has escapado del puente y del monstruo! A donde quieres ir?");
+						puedeMover = true;
+					} else {
+						personatge.rebreDany(1);
+						personatge.setCausaMort("Caída del puente");
+						System.out.println("Has caído del puente! Vida actual: " + personatge.getVida());
 
-                    salaActual = Masmorra.obtenirSalaActual(personatge);
-                    monstreSalaActual = salaActual.getMonstre();
-                }
-               
-                System.out.println("Te moviste a una nueva sala.");
-                if (salaActual.getMonstre() != null && monstreSalaActual.estaViu()) {
-                    System.out.println("En la sala actual hay un monstruo");
-                    System.out.println(monstreSalaActual);
-                } else {
-                    System.out.println("No hay monstruo en la sala que te moviste");
-                }
-                break;
+						personatge.rebreDany(monstreSalaActual.getPenalització());
+						personatge.setCausaMort("Caída del puente y ataque de " + monstreSalaActual.getNom());
+						System.out.println("El monstruo te ha atacado por intentar huir. Vida actual: " + personatge.getVida());
+					}
+				}
 
-            case 2:
-                System.out.println("-Atacar-");
-                if(salaActual.getMonstre() != null && monstreSalaActual.estaViu()) {
-                    personatge.atacar(monstreSalaActual);
+				if (salaActual instanceof SalaComuna) {
+					System.out.println("Al ser una sala común has escapado, pero te han hecho daño en el camino...");
+					puedeMover = true;
+					personatge.rebreDany(monstreSalaActual.getPenalització());
+					personatge.setCausaMort("Huida y ataque de " + monstreSalaActual.getNom());
+					personatge.setVida(personatge.getVida() - monstreSalaActual.getPenalització());
+					System.out.println("Vida actual: " + personatge.getVida());
+				}
 
-                    if(!monstreSalaActual.estaViu()) {
-                        personatge.setExperencia(personatge.getExperencia() + monstreSalaActual.getValorExperiencia());
-                        System.out.println("Mounstruo muerto! Experiencia ganada: " + monstreSalaActual.getValorExperiencia());
-                    } else {
-                    		System.out.println("EL MOUNSTRUO CONTRAATACA");
-                        monstreSalaActual.atacar(personatge);
-                        		if(!personatge.estaViu()) {
-                        			System.out.println("Has muerto...");
-                                    personatge.setCausaMort("Ataque de " + monstreSalaActual.getNom());
-                        		}
-                    }
-                } else {
-                    System.out.println("No hay ningun mounstruo en esta sala.");
-                }
-                break;
+			} else {
+				puedeMover = true;
+			}
 
-            default:
-                System.out.println("OPCION INVALIDA");
-        }
+			if (puedeMover) {
+				System.out.println("N-arriba | S-abajo | E-derecha | O-izquierda");
+				char moviment = teclado.next().charAt(0);
+				personatge.moure(moviment);
+				System.out.println();
+				System.out.println("Te has movido a una nueva sala.");
 
-        System.out.println("- - - - - - - - - - - - - - - - - ");
-    }
-    
-    public static void mostrarVictoria(Personatge personatge) {
-        System.out.println("--------------------------------");
-        System.out.println("HAS ESCAPADO DE LA MASMORRA");
-        System.out.println("--------------------------------");
-        System.out.println("Experiencia:       " + personatge.getExperencia());
-        System.out.println("Tesoros recojidos: " + personatge.getNumTresors());
-        System.out.println("Monedas de oro:      " + personatge.getTotalOr());
-        System.out.println("Vida restante:      " + personatge.getVida());
-        System.out.println("Masmorra explorada: " + calcularPercentatgeExplorat() + "%");
-    }
+				if (Masmorra.hasSortitDeLaMasmorra(personatge)) {
+					break;
+				}
 
-    public static void mostrarDerrota(Personatge personatge) {
-        System.out.println("--------------------------------");
-        System.out.println("HAS MORT...");
-        System.out.println("--------------------------------");
-        System.out.println("Experiencia conseguida: " + personatge.getExperencia());
-        System.out.println("Causa de la muerte:        " + personatge.getCausaMort());
-        System.out.println("Masmorra explorada: " + calcularPercentatgeExplorat() + "%");
-    }
+				salaActual = Masmorra.obtenirSalaActual(personatge);
+				monstreSalaActual = salaActual.getMonstre();
+			}
 
-    public static boolean hasSortitDeLaMasmorra(Personatge personatge) {
-        int fila = personatge.getPosicio(0);
-        int col  = personatge.getPosicio(1);
-        
-        if ((fila <= 0 && col >= 5) || (fila >= 5 && col >= 5) || (fila >= 5 && col <= 0)) {
-        	return true;
-        } else {
-        	return false;
-        }
-        
-//        return fila < 0 || fila >= FILES || col < 0 || col >= COLUMNES;
-    }
+			
+			if (salaActual.getMonstre() != null && monstreSalaActual.estaViu()) {
+				System.err.println("! ! EN LA SALA ACTUAL HAY UN MONSTRUO ! !");
+				System.out.println(monstreSalaActual);
+			} else {
+				System.out.println("No hay ningún monstruo en la sala a la que te has movido");
+			}
+			break;
 
-    public static int calcularPercentatgeExplorat() {
-        int explorades = 0;
-        for (int i = 0; i < FILES; i++) {
-            for (int j = 0; j < COLUMNES; j++) {
-                if (sales[i][j].isExplorada()) {
-                    explorades++;
-                }
-            }
-        }
-        return (explorades * 100) / (FILES * COLUMNES);
-    }
+		case 2:
+			System.out.println("-Atacar-");
+			if(salaActual.getMonstre() != null && monstreSalaActual.estaViu()) {
+				personatge.atacar(monstreSalaActual);
+
+				if(!monstreSalaActual.estaViu()) {
+					personatge.setExperencia(personatge.getExperencia() + monstreSalaActual.getValorExperiencia());
+					System.out.println("Monstruo muerto! Experiencia ganada: " + monstreSalaActual.getValorExperiencia());
+				} else {
+					System.out.println("EL MONSTRUO CONTRAATACA");
+					monstreSalaActual.atacar(personatge);
+
+					if(!personatge.estaViu()) {
+						System.out.println("Has muerto...");
+						personatge.setCausaMort("Ataque de " + monstreSalaActual.getNom());
+					}
+				}
+			} else {
+				System.out.println("No hay ningún monstruo en esta sala.");
+			}
+			break;
+
+		default:
+			System.out.println("OPCIÓN INVÁLIDA");
+		}
+
+		System.out.println("- - - - - - - - - - - - - - - - - ");
+	}
+
+	public static void mostrarVictoria(Personatge personatge, String nombre) {
+		System.out.println("--------------------------------");
+		System.out.println("HAS ESCAPADO DE LA MAZMORRA " + nombre + "!!!!");
+		System.out.println("--------------------------------");
+		System.out.println("Experiencia:       " + personatge.getExperencia());
+		System.out.println("Tesoros recogidos: " + personatge.getNumTresors());
+		System.out.println("Monedas de oro:      " + personatge.getTotalOr());
+		System.out.println("Vida restante:      " + personatge.getVida());
+		System.out.println("Masmorra explorada: " + calcularPercentatgeExplorat() + "%");
+	}
+
+	public static void mostrarDerrota(Personatge personatge, String nombre) {
+		System.out.println("--------------------------------");
+		System.out.println("HAS MUERTO" + nombre + "...");
+		System.out.println("--------------------------------");
+		System.out.println("Experiencia conseguida: " + personatge.getExperencia());
+		System.out.println("Causa de la muerte:        " + personatge.getCausaMort());
+		System.out.println("Masmorra explorada: " + calcularPercentatgeExplorat() + "%");
+	}
+
+	public static boolean hasSortitDeLaMasmorra(Personatge personatge) {
+		int fila = personatge.getPosicio(0);
+		int col  = personatge.getPosicio(1);
+
+		if ((fila <= 0 && col >= 5) || (fila >= 5 && col >= 5) || (fila >= 5 && col <= 0)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static int calcularPercentatgeExplorat() {
+		int explorades = 0;
+		for (int i = 0; i < FILES; i++) {
+			for (int j = 0; j < COLUMNES; j++) {
+				if (sales[i][j].isExplorada()) {
+					explorades++;
+				}
+			}
+		}
+		return (explorades * 100) / (FILES * COLUMNES);
+	}
+
 }

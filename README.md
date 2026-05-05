@@ -1,142 +1,174 @@
 # DungeonQuest-Proyecto-AEA2
 
-Projecte acadèmic de Programació Orientada a Objectes avançada. Digitalització d'un joc de taula de masmorres.
+Proyecto académico de Programación Orientada a Objetos avanzada. Digitalización de un juego de mesa de mazmorras.
 
 ---
 
-## Descripció
+## Descripción
 
-El jugador controla un personatge que explora una masmorra de 6x6 sales. L'objectiu és sortir de la masmorra pels seus extrems recollint tresors i derrotant monstres pel camí.
+El jugador controla un personaje que explora una mazmorra de 6x6 salas. El objetivo es salir de la mazmorra por sus extremos recogiendo tesoros y derrotando monstruos por el camino.
 
 ---
 
-## Estructura del projecte
+## Estructura del proyecto
 
-```
+
 POO/
-├── main.java           → Punt d'entrada, bucle principal del joc
-├── Masmorra.java       → Controlador del joc (estàtic)
-├── Personatge.java     → Classe del jugador
-├── Monstre.java        → Classe dels enemics
-├── Tresor.java         → Classe base dels tresors
-├── TresorMagic.java    → Tresor que recupera vida (ampliació)
-├── TresorMaleit.java   → Tresor que fa dany (ampliació)
-├── Combatent.java      → Interfície de combat
-├── Sala.java           → Classe abstracta de sala
-├── SalaComuna.java     → Sala estàndard
-├── SalaPont.java       → Sala amb tirada d'agilitat per sortir
-├── SalaTeranyina.java  → Sala amb tirada de força per sortir
-└── SalaTrampa.java     → Sala que fa dany en explorar (ampliació)
-```
+
+|-- main.java → Punto de entrada, bucle principal del juego
+
+|-- Mazmorra.java → Controlador del juego (estático)
+
+|-- Personaje.java → Clase del jugador
+
+|-- Monstruo.java → Clase de los enemigos
+
+|-- Tesoro.java → Clase base de los tesoros
+
+|-- TesoroMagico.java → Tesoro que recupera vida (ampliación)
+
+|-- TesoroMaldito.java → Tesoro que hace daño (ampliación)
+
+|-- Combatiente.java → Interfaz de combate
+
+|-- Sala.java → Clase abstracta de sala
+
+|-- SalaComun.java → Sala estándar
+
+|-- SalaPuente.java → Sala con tirada de agilidad para salir
+
+|-- SalaTelaraña.java → Sala con tirada de fuerza para salir
+
+|__ SalaTrampa.java → Sala que hace daño al explorar (ampliación)
+
+
 
 ---
 
-## Com jugar
+## Cómo jugar
 
-En cada torn tens fins a 3 opcions disponibles:
+En cada turno tienes hasta 3 opciones disponibles:
 
-| Opció | Quan apareix | Descripció |
-|---|---|---|
-| `0. Explorar` | Sala no explorada | Troba el tresor de la sala |
-| `1. Moure` | Sempre | Mou el personatge (N/S/E/O) |
-| `2. Atacar` | Hi ha monstre viu | Combat contra el monstre |
+| Opción | Cuándo aparece | Descripción |
+|--------|----------------|-------------|
+| `0. Explorar` | Sala no explorada | Encuentra el tesoro de la sala |
+| `1. Mover` | Siempre | Mueve el personaje (N/S/E/O) |
+| `2. Atacar` | Hay un monstruo vivo | Combate contra el monstruo |
+| `3. Informacion` | Siempre | Muestra informacion del personaje |
 
-### Moviment
-- `N` → Amunt
-- `S` → Avall  
-- `E` → Dreta
-- `O` → Esquerra
+### Movimiento
+- `N` → Arriba  
+- `S` → Abajo  
+- `E` → Derecha  
+- `O` → Izquierda  
 
-El personatge comença a la cantonada superior esquerra **(0,0)**.
-
----
-
-## ipus de sales
-
-| Símbol | Tipus | Efecte |
-|---|---|---|
-| `&` | Posició actual | — |
-| `*` | Explorada | — |
-| `X` | Sala trampa | — |
-| `-` | No explorada | — |
-
-| Tipus | Probabilitat | Efecte en intentar sortir |
-|---|---|---|
-| `SalaComuna` | 50% | Sempre es pot sortir |
-| `SalaPont` | 20% | Tirada d'agilitat, si falla rep 1 de dany |
-| `SalaTeranyina` | 15% | Tirada de força, si falla no es pot sortir |
-| `SalaTrampa` | 15% | En explorar rep dany automàticament |
-
-> Si hi ha un monstre i intentes fugir, el monstre et penalitza amb la seva penalització de fugida.
+El personaje comienza en la esquina superior izquierda **(0,0)**.
 
 ---
 
-## Combat
+## Tipos de salas
 
-1. El personatge calcula el seu atac (`calcularAtac()`)
-2. El monstre rep el dany
-3. Si el monstre sobreviu, contraataca
-4. Si el personatge sobreviu, el torn acaba
-5. Si el monstre mor, el personatge guanya experiència (`vida monstre × 2`)
-
----
-
-## Tipus de tresors
-
-| Tipus | Efecte |
-|---|---|
-| `Tresor` | Tresor normal, té valor en or |
-| `TresorMagic` | En recollir-lo recuperes vida |
-| `TresorMaleit` | En recollir-lo perds vida |
-
-L'inventari del personatge té una mida igual a la seva **força**.
+| Símbolo | Tipo | Descripción |
+|--------|------|--------|
+| `&` | Posición actual | Es donde se encuentra el jugador |
+| `*` | Sala explorada | Muestra las salas exploradas |
+| `X` | Sala trampa | Marca la sala trampa |
+| `-` | No explorada | Zona del mapa no explorada |
 
 ---
 
-## Fi de la partida
+## Mecánica de salida de salas
 
-### Victòria
-El personatge surt de la masmorra per qualsevol extrem (excepte per on va entrar).
+| Tipo | Probabilidad | Efecto al intentar salir |
+|------|--------------|--------------------------|
+| SalaComun | 50% | Siempre se puede salir |
+| SalaPuente | 20% | Tirada de agilidad, si falla recibe 1 de daño |
+| SalaTelaraña | 15% | Tirada de fuerza, si falla no puede salir |
+| SalaTrampa | 15% | Al explorar recibe daño automático, siempre se puede salir |
 
-Mostra:
-- Experiència total
-- Nombre de tresors recollits
-- Total de monedes d'or
-- Vida restant
-- % de masmorra explorada
+> Si hay un monstruo e intentas huir, el monstruo aplica su penalización de huida.
 
+---
+
+## Combate
+
+1. El personaje calcula su ataque (`calcularAtaque()`)
+2. El monstruo recibe daño
+3. Si el monstruo sobrevive, contraataca
+4. Si el personaje sobrevive, el turno termina
+5. Si el monstruo muere, el personaje gana experiencia (`vida del monstruo × 2`)
+
+---
+
+## Tipos de tesoros
+
+| Tipo | Efecto |
+|------|--------|
+| Tesoro | Tesoro normal con valor en oro |
+| TesoroMagico | Recupera vida al recogerlo |
+| TesoroMaldito | Pierde vida al recogerlo |
+
+El inventario del personaje tiene un tamaño igual a su **fuerza**.
+
+---
+
+## Fin de la partida
+
+### Victoria
+El personaje debe lograr 2 cosas, 1 matar al jefe final y salir de la mazmorra por cualquier de los 3 extremos (el unico extremo por el cual no puede escapar es por donde entro).
+
+Se muestra:
+- Experiencia total
+- Número de tesoros recogidos
+- Oro total
+- Vida restante
+- Porcentaje de mazmorra explorada
+- creditos
+  
 ### Derrota
-La vida del personatge arriba a 0.
+La vida del personaje llega a 0.
 
-Mostra:
-- Experiència aconseguida
-- Causa de la mort
-- % de masmorra explorada
+Se muestra:
+- Experiencia obtenida
+- Causa de la muerte
+- Porcentaje de mazmorra explorada
+- creditos
+  
+---
+
+## Atributos del personaje
+
+| Atributo | Rango | Descripción |
+|----------|-------|-------------|
+| Vida | 5 - 20 | Puntos de vida |
+| Ataque | = fuerza | Daño máximo por ataque |
+| Agilidad | 4 - 11 | Tiradas en salas puente |
+| Fuerza | 4 - 11 | Tiradas en telarañas e inventario |
+| Experiencia | 0+ | Ganada al derrotar monstruos |
 
 ---
 
-## Atributs del personatge
+## Ampliaciones implementadas
 
-| Atribut | Rang | Descripció |
-|---|---|---|
-| `vida` | 5 - 20 | Punts de vida |
-| `atac` | = força | Dany màxim per atac |
-| `agilitat` | 4 - 11 | Tirades de pont |
-| `força` | 4 - 11 | Tirades de teranyina i mida inventari |
-| `experiència` | 0+ | Acumulada derrotant monstres |
+1. SalaTrampa → daño automático al explorar  
+2. TesoroMagico → recupera vida al recogerlo  
+3. TesoroMaldito → hace daño al recogerlo  
+4. Dragón Final → monstruo especial con 20 de vida en el centro de la mazmorra
+5. Tercer opcion en el menú, muestra la informacion del personaje
+6. Subir de nivel, puedes subir de nivel y mejorar tus estadisticas 
+
+---
+## Sistema de experiencia
+
+Al matar monstruos ganas experiencia, si tu experiencia llega a 30 subiras de nivel, reiniciando la experiencia a 0.
+
+Si subes de nivel y ganaste 10 de experiencia de mas ( experiencia actual + experiencia ganada > 40 ) ganaras +5 putnos en vida, agilidad, fuerza y ataque,
+si tienes entre 30 y 40 de exp, ganaras +3 puntos de los valores mencionados.
+
 
 ---
 
-## Ampliacions implementades
+## Tecnologías
 
-1. **`SalaTrampa`** — sala especial que fa dany automàtic en explorar-la
-2. **`TresorMagic`** — tresor que recupera vida en recollir-lo
-3. **`TresorMaleit`** — tresor maleït que fa dany en recollir-lo
-4. **Drac Final** — monstre especial amb 30 de vida al centre de la masmorra, el monstre pot estar en qualsevol de les 4 posicions centrals del tauler
-
----
-
-## Tecnologies
-
-- Java
-- Programació Orientada a Objectes (Herència, Classes Abstractes, Interfícies)
+- Java  
+- Programación Orientada a Objetos (herencia, clases abstractas, interfaces)

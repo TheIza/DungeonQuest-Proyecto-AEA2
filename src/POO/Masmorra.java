@@ -34,7 +34,7 @@ public class Masmorra {
 		};
 	}
 
-	public static void crearMasmorra() {
+	public static void crearMasmorra(Monstre finalBoss) {
 		sales = new Sala[FILES][COLUMNES];
 		
 		
@@ -54,7 +54,7 @@ public class Masmorra {
 		 * Añadimos un boss final en el medio del tablero, este puede salir en cualquiera de las 4 casillas centrales
 		 */
 
-		Monstre finalBoss = new Monstre(30, 3);
+		
 		finalBoss.setNom("ChikiIbai");
 		int valorRandom = valorRandom(0,4);
 
@@ -163,7 +163,7 @@ public class Masmorra {
 		return sales[personatge.getPosicio(0)][personatge.getPosicio(1)];
 	}
 
-	public static void mostrarOpciones(Personatge personatge) {
+	public static void mostrarOpciones(Personatge personatge, Monstre finalBoss) {
 
 		Sala salaActual = Masmorra.obtenirSalaActual(personatge);
 		boolean entroInfo = false;
@@ -199,7 +199,7 @@ public class Masmorra {
 		case 1:
 			boolean puedeMover = false;
 			System.out.println("          -Mover-");
-			if (Masmorra.hasSortitDeLaMasmorra(personatge)) {
+			if (Masmorra.hasSortitDeLaMasmorra(personatge, finalBoss)) {
 				break;
 			}
 			if (salaActual.getMonstre() != null && salaActual.getMonstre().estaViu()) {
@@ -262,7 +262,7 @@ public class Masmorra {
 				System.out.println();
 				System.out.println("Te has movido a una nueva sala.");
 
-				if (Masmorra.hasSortitDeLaMasmorra(personatge)) {
+				if (Masmorra.hasSortitDeLaMasmorra(personatge, finalBoss)) {
 					break;
 				}
 
@@ -288,11 +288,13 @@ public class Masmorra {
 					personatge.setExperencia(personatge.getExperencia() + monstreSalaActual.getValorExperiencia());
 					System.out.println("Monstruo muerto! Experiencia ganada: " + monstreSalaActual.getValorExperiencia());
 				} else {
-					System.out.println("EL MONSTRUO CONTRAATACA");
+					System.out.println();
+					System.out.println("- EL MONSTRUO CONTRAATACA -");
+					System.out.println();
 					monstreSalaActual.atacar(personatge);
 
 					if(!personatge.estaViu()) {
-						System.out.println("Has muerto...");
+						System.out.println("Has muerto... ");
 						personatge.setCausaMort("Ataque de " + monstreSalaActual.getNom());
 					}
 				}
@@ -337,22 +339,29 @@ public class Masmorra {
 
 	public static void mostrarDerrota(Personatge personatge, String nombre) {
 		System.out.println("--------------------------------");
-		System.out.println("HAS MUERTO" + nombre + "...");
+		System.out.println("HAS MUERTO " + nombre + "...");
 		System.out.println("--------------------------------");
 		System.out.println("Experiencia conseguida: " + personatge.getExperencia());
 		System.out.println("Causa de la muerte:        " + personatge.getCausaMort());
 		System.out.println("Masmorra explorada: " + calcularPercentatgeExplorat() + "%");
 	}
 
-	public static boolean hasSortitDeLaMasmorra(Personatge personatge) {
+	public static boolean hasSortitDeLaMasmorra(Personatge personatge, Monstre chikiIbai) {
 		int fila = personatge.getPosicio(0);
 		int col  = personatge.getPosicio(1);
 
-		if ((fila <= 0 && col >= 5) || (fila >= 5 && col >= 5) || (fila >= 5 && col <= 0)) {
+		if (((fila <= 0 && col >= 5) || (fila >= 5 && col >= 5) || (fila >= 5 && col <= 0)) && chikiIbai.getVida() < 1) {
 			return true;
+		}
+		
+		if(((fila <= 0 && col >= 5) || (fila >= 5 && col >= 5) || (fila >= 5 && col <= 0)) && chikiIbai.getVida() > 0) {
+			System.out.println("Intentas abrir la puerta, pero te fijas que esta cerrada con llave. \n"
+							+ "Debes matar al GRAN JEFE final para poder obtener la llave y escapar de la mazmorra");
+			return false;
 		} else {
 			return false;
 		}
+		
 	}
 
 	public static int calcularPercentatgeExplorat() {

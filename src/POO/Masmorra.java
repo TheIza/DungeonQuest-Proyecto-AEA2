@@ -287,6 +287,8 @@ public class Masmorra {
 				if(!monstreSalaActual.estaViu()) {
 					personatge.setExperencia(personatge.getExperencia() + monstreSalaActual.getValorExperiencia());
 					System.out.println("Monstruo muerto! Experiencia ganada: " + monstreSalaActual.getValorExperiencia());
+					// AQUI VA EL METODO DE SUBIR DE NIVEL
+					personatge.subirNivell(monstreSalaActual);
 				} else {
 					System.out.println();
 					System.out.println("- EL MONSTRUO CONTRAATACA -");
@@ -310,8 +312,9 @@ public class Masmorra {
 			System.out.println("=-=-==-=-==-=-==-=-==-=-==-=-==-=-==-=-=");
 			System.out.println("| Nombre: " + personatge.getNom() + "\n" +
 					"| Vida: " + personatge.getVida() + "\n" +
-					"| Agilitat: " + personatge.getAgilitat() + "\n" + 
-					"| Forsa: " + personatge.getForsa());
+					"| Agilidad: " + personatge.getAgilitat() + "\n" + 
+					"| Fuerza/Ataque: " + personatge.getForsa() + "\n" + 
+					"| Nivel: " + personatge.getNivell());
 			System.out.println("=-=-==-=-==-=-==-=-==-=-==-=-==-=-==-=-=");
 			System.out.println();
 			entroInfo =  true;

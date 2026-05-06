@@ -36,14 +36,14 @@ public class Masmorra {
 
 	public static void crearMasmorra(Monstre finalBoss) {
 		sales = new Sala[FILES][COLUMNES];
-		
-		
+
+
 		for (int i = 0; i < FILES; i++) {
 			for (int j = 0; j < COLUMNES; j++) {
 				sales[i][j] = generarSalaAleatoria();
 			}
 		}
-		
+
 		// la primera sala del juego sera 100/100 comuna
 		Tresor tresor = generarTresorAleatori();
 		Monstre monstre = generarMonstreAleatori();
@@ -54,7 +54,7 @@ public class Masmorra {
 		 * Añadimos un boss final en el medio del tablero, este puede salir en cualquiera de las 4 casillas centrales
 		 */
 
-		
+
 		finalBoss.setNom("ChikiIbai");
 		int valorRandom = valorRandom(0,4);
 
@@ -180,7 +180,14 @@ public class Masmorra {
 		System.out.println();
 		System.out.print("Opción: ");
 
-		int menu = teclado.nextInt();
+
+		String menu_str = teclado.next();
+		int menu_str1 = (int) menu_str.charAt(0);
+		int menu = 5;
+		if (47 < menu_str1 && menu_str1 < 58) {
+			menu = (int) menu_str1-48;
+		} 
+
 		System.out.println();
 
 		Monstre monstreSalaActual = salaActual.getMonstre();
@@ -260,6 +267,7 @@ public class Masmorra {
 				char moviment = teclado.next().charAt(0);
 				personatge.moure(moviment);
 				System.out.println();
+				limpiarPantalla();
 				System.out.println("Te has movido a una nueva sala.");
 
 				if (Masmorra.hasSortitDeLaMasmorra(personatge, finalBoss)) {
@@ -322,7 +330,8 @@ public class Masmorra {
 		default:
 			System.out.println("OPCIÓN INVÁLIDA");
 		}
-
+		
+		
 		// esto es meramente visual
 		if (!entroInfo) {
 			System.out.println("- - - - - - - - - - - - - - - - - ");
@@ -353,20 +362,25 @@ public class Masmorra {
 		int fila = personatge.getPosicio(0);
 		int col  = personatge.getPosicio(1);
 
-		if (((fila <= 0 && col >= 5) || (fila >= 5 && col >= 5) || (fila >= 5 && col <= 0)) && chikiIbai.getVida() < 1) {
-			return true;
+		if (((fila <= 0 && col >= 5) || (fila >= 5 && col >= 5) || (fila >= 5 && col <= 0))) {
+			if (chikiIbai.getVida() < 1) {
+				return true;	
+			} else {
+				System.out.println("Intentas abrir la puerta, pero te fijas que esta cerrada con llave. \n"
+						+ "Debes matar al GRAN JEFE final para poder obtener la llave y escapar de la mazmorra");
+				return false;
+			}
+
 		}
-		
-		if(((fila <= 0 && col >= 5) || (fila >= 5 && col >= 5) || (fila >= 5 && col <= 0)) && chikiIbai.getVida() > 0) {
-			System.out.println("Intentas abrir la puerta, pero te fijas que esta cerrada con llave. \n"
-							+ "Debes matar al GRAN JEFE final para poder obtener la llave y escapar de la mazmorra");
-			return false;
-		} else {
-			return false;
-		}
-		
+		return false;
 	}
 
+	public static void limpiarPantalla() {
+	    for (int i = 0; i < 50; i++) {
+	        System.out.println();
+	    }
+	}
+	
 	public static int calcularPercentatgeExplorat() {
 		int explorades = 0;
 		for (int i = 0; i < FILES; i++) {
@@ -379,4 +393,5 @@ public class Masmorra {
 		return (explorades * 100) / (FILES * COLUMNES);
 	}
 
+	
 }

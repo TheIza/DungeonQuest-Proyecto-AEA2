@@ -14,7 +14,7 @@ public class main {
 		System.out.println("   - - - DUNGEON QUEST - - - ");
 		System.out.println();
 
-		System.out.print("Posa el nom del teu personatge: ");
+		System.out.print("Pon el nombre de tu personaje: ");
 		String nombre = texto.next();
 		System.out.println();
 		Personatge personatge = new Personatge(nombre);
@@ -30,10 +30,13 @@ public class main {
 				fin = true;
 
 			} else {
+				
 				Masmorra.mostrarMasmorra(personatge);
 				System.out.println();
+				
 				Masmorra.mostrarOpciones(personatge, finalBoss);
 				System.out.println();
+				
 			}
 		}
 		System.out.println();
@@ -41,8 +44,8 @@ public class main {
 		System.out.println("          - - - Creditos - - -" + "\n");
 		System.out.println("       - Marcos.J e Izarbe.L - ");
 
-
-
-
 	}
+	
+	
+
 }

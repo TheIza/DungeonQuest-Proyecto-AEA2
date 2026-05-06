@@ -1,6 +1,5 @@
 package POO;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Personatge implements Combatent {
@@ -92,8 +91,8 @@ public class Personatge implements Combatent {
 		this.posicio[1] = posCol;
 	}
 
-	
-	
+
+
 	public int getNivell() {
 		return nivell;
 	}
@@ -262,57 +261,50 @@ public class Personatge implements Combatent {
 		}
 		return total;
 	}
-	
+
 	public void subirNivell(Monstre monstre) {
 		int experienciaSubirNvl = 30;
 		int expRestante = 0;
-		
+
 		if (experencia >= experienciaSubirNvl) {
-			
-			
-			
+
 			//sube de nivel
 			nivell++;
-			
-			
+
 			//sube sus stats	
 			System.out.println();
 			System.out.println("!!!SUBISTE DE NIVEL!!!");
 			System.out.println("Tu nivel actual es de: " + nivell);
 			System.out.println();
 			System.out.println("<STATS>");
-			
-			
+
 			expRestante = experencia - 30;
-			
+
 			if(expRestante >= 10) {
 				System.out.println("Ganaste experiencia de mas, te veras recompensado");
 				System.out.println(
 						"Vida: " + vida + " +5" +
-						" | Agilidad: " + agilitat + " +5" +
-						" | Fuerza/Ataque: " + forsa + " +5");
+								" | Agilidad: " + agilitat + " +5" +
+								" | Fuerza/Ataque: " + forsa + " +5");
 				vida += 5; 
 				agilitat += 5;
 				forsa += 5;
 				atac += 5;
-				
+
 			} else {
 				System.out.println(
 						"Vida: " + vida + " +3" +
-						" | Agilidad: " + agilitat + " +3" +
-						" | Fuerza/Ataque: " + forsa + " +3");
-				
+								" | Agilidad: " + agilitat + " +3" +
+								" | Fuerza/Ataque: " + forsa + " +3");
+
 				vida += 3; 
 				agilitat += 3;
 				forsa += 3;
 				atac += 3;
-			
+
 			}
-		
-			
 			experencia = 0;
-			
 		}
-		
+
 	}
 }

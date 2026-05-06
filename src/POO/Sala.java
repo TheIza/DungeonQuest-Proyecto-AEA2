@@ -46,6 +46,10 @@ public abstract class Sala {
 	public void setExplorada(boolean explorada) {
 		this.explorada = explorada;
 	}
+	
+	public boolean ishayTesoro() {
+		return tresor != null;
+	}
 
 	public abstract boolean intentarSortir(int numeroForsaAgilitat);
 
@@ -58,9 +62,9 @@ public abstract class Sala {
 	}
 
 	public boolean randomMonstruo() {
-
 		int minimo= 0;
 		int maximo = 100;
+
 		if(((int)(Math.random() * (maximo - minimo + 1)) + minimo) > 35) {
 			return true;	
 		}else {
@@ -69,10 +73,7 @@ public abstract class Sala {
 
 		
 	}
-
-	public boolean ishayTesoro() {
-		return tresor != null;
-	}
+	
 
 	@Override
 	public String toString() {

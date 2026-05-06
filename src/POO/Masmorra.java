@@ -16,6 +16,7 @@ public class Masmorra {
 
 	public Masmorra() {}
 
+	// iniciamos tesoros y monstruos
 	public static void inicialitzarDades() {
 		tresors = new Tresor[] {
 				new Tresor("Espada de oro", 150, 4.5),
@@ -34,6 +35,7 @@ public class Masmorra {
 		};
 	}
 
+	//creamos la mazmorra con sus cofres, monstruos, salas y jefe final.
 	public static void crearMasmorra(Monstre finalBoss) {
 		sales = new Sala[FILES][COLUMNES];
 
@@ -85,6 +87,7 @@ public class Masmorra {
 		}
 	}
 
+	// generador de salas aleatorias para el metodo crearMasmorra
 	private static Sala generarSalaAleatoria() {
 		int numero = random.nextInt(100) + 1;
 		Tresor tresor = generarTresorAleatori();
@@ -184,7 +187,7 @@ public class Masmorra {
 		String menu_str = teclado.next();
 		int menu_str1 = (int) menu_str.charAt(0);
 		int menu = 5;
-		if (47 < menu_str1 && menu_str1 < 58) {
+		if (menu_str1 > 47 && menu_str1 < 58) {
 			menu = (int) menu_str1-48;
 		} 
 
@@ -362,7 +365,7 @@ public class Masmorra {
 		int fila = personatge.getPosicio(0);
 		int col  = personatge.getPosicio(1);
 
-		if (((fila <= 0 && col >= 5) || (fila >= 5 && col >= 5) || (fila >= 5 && col <= 0))) {
+		if (((fila <= 0 && col >= COLUMNES-1) || (fila >= FILES-1 && col >= COLUMNES-1) || (fila >= FILES-1 && col <= 0))) {
 			if (chikiIbai.getVida() < 1) {
 				return true;	
 			} else {
@@ -392,6 +395,7 @@ public class Masmorra {
 		}
 		return (explorades * 100) / (FILES * COLUMNES);
 	}
+
 
 	
 }

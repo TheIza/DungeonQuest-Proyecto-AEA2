@@ -211,9 +211,9 @@ public class Personatge implements Combatent {
 
 		if (direccio == 'N' && fila > 0) {
 			posicio[0]--;
-		} else if (direccio == 'E' && col < 5) {
+		} else if (direccio == 'E' && col < Masmorra.COLUMNES-1) {
 			posicio[1]++;
-		} else if (direccio == 'S' && fila < 5) {
+		} else if (direccio == 'S' && fila < Masmorra.FILES-1) {
 			posicio[0]++;
 		} else if (direccio == 'O' && col > 0) {
 			posicio[1]--;

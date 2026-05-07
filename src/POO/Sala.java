@@ -22,6 +22,9 @@ public abstract class Sala {
 
 		this.explorada = false;
 	}
+	
+	
+	
 
 	public Tresor getTresor() {
 		return tresor;

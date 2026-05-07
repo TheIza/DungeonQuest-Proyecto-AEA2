@@ -25,7 +25,7 @@ public class main {
 			if (!personatge.estaViu()) {
 				Masmorra.mostrarDerrota(personatge, nombre);
 				fin = true;
-			} else if (Masmorra.hasSortitDeLaMasmorra(personatge, finalBoss)) {
+			} else if (Masmorra.hasSortitDeLaMasmorra(personatge, finalBoss, false)) {
 				Masmorra.mostrarVictoria(personatge, nombre);
 				fin = true;
 
